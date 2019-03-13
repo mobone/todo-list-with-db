@@ -61,9 +61,8 @@ def addTodo():
     print(data.values())
 
     cur.execute(sql, (data['id'], data['value'], data['completed']))
-
-
     conn.commit()
+
     return jsonify(data)
 
 @app.route('/get_all_tasks/')
@@ -74,8 +73,15 @@ def get_all_tasks():
     sql = 'select * from todo_list'
     cur.execute(sql)
     all_tasks = cur.fetchall()
-    print('mooo',jsonify(all_tasks))
-    return jsonify(all_tasks)
+    tasks_list = []
+    for task in all_tasks:
+        task_dict = {'id': task[0],
+                    'value': task[1],
+                    'completed': task[2]}
+        tasks_list.append(task_dict)
+
+    print('mooo',jsonify(tasks_list))
+    return jsonify(tasks_list)
 
 
 
