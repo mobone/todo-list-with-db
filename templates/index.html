@@ -80,12 +80,36 @@
     .then(function(response) {
       return response.json();
     })
-    .then(function(myJson) {
-      console.log(JSON.stringify(myJson));
+    .then(function(itemsList) {
+      console.log(itemsList)
+      displayAllItems(itemsList)
     });
 
     console.log('grandmas alive')
   }
+
+  // adds the items to the innerHTML
+  function displayAllItems(itemsList) {
+    for (var i = 0; i < itemsList.length; i++) {
+      
+      let html = `
+        <li id="${itemsList[i]['id']}">
+          <div class="view">
+            <input class="toggle" type="checkbox" onclick="toggleComplete(this)"
+              data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">
+            <label>${itemsList[i]['value']}</label>
+            <button class="destroy" onclick="removeItem('${itemsList[i]['id']}')"></button>
+          </div>
+        </li>`;
+      let list = document.querySelector(".todo-list")
+      list.innerHTML += html;
+
+    }
+
+
+
+  }
+
   // function that makes API call to remove an item
   function removeItem(id) {
     fetch(`/remove-todo/${id}`);

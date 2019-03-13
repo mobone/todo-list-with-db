@@ -88,8 +88,16 @@ def get_all_tasks():
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
 def removeTodo(item_id):
+    conn = get_db()
+    cur = conn.cursor()
+
     data = {'id': item_id }
     pusher.trigger('todo', 'item-removed', data)
+    print(item_id)
+    sql = 'delete from todo_list where id == "%s"' % item_id
+    cur.execute(sql)
+    conn.commit()
+
     return jsonify(data)
 
 # endpoint for updating todo item
