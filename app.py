@@ -18,6 +18,7 @@ pusher = Pusher(
   ssl=True
 )
 
+
 # database connection
 DATABASE = './database.db'
 def get_db():
@@ -41,7 +42,8 @@ def index():
 # endpoint for storing todo item
 @app.route('/add-todo', methods = ['POST'])
 def addTodo():
-    cur = get_db().cursor()
+    conn = get_db()
+    cur = conn.cursor()
 
     data = json.loads(request.data) # load JSON data from request
     pusher.trigger('todo', 'item-added', data) # trigger `item-added` event on `todo` channel
@@ -50,14 +52,32 @@ def addTodo():
     sql = "insert into base_todo_items_test values (?,?,?)"
     print(data)
 
-    columns = ', '.join(values.keys())
-    placeholders = ', '.join('?' * len(values))
-    sql = 'INSERT INTO Media ({}) VALUES ({})'.format(columns, placeholders)
-    cur.execute(sql, values.values())
+    columns = ', '.join(data.keys())
+    placeholders = ', '.join('?' * len(data))
+    print(columns)
+    print(placeholders)
+    sql = 'INSERT into todo_list ({}) VALUES ({})'.format(columns, placeholders)
+    print(sql)
+    print(data.values())
+
+    cur.execute(sql, (data['id'], data['value'], data['completed']))
 
 
-
+    conn.commit()
     return jsonify(data)
+
+@app.route('/get_all_tasks/')
+def get_all_tasks():
+    conn = get_db()
+    cur = conn.cursor()
+
+    sql = 'select * from todo_list'
+    cur.execute(sql)
+    all_tasks = cur.fetchall()
+    print('mooo',jsonify(all_tasks))
+    return jsonify(all_tasks)
+
+
 
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')

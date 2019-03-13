@@ -6,7 +6,7 @@
   <title>Realtime Todo List</title>
 </head>
 
-<body>
+<body onload="readItems()">
   <section class="todoapp">
     <header class="header">
       <h1>Todos</h1>
@@ -74,6 +74,17 @@
     }
   }
 
+  // function that reads all items from db
+  function readItems() {
+    fetch('/get_all_tasks')
+    .then(resp => {
+    // empty form input once a response is received
+
+    console.log('>>', JSON.stringify(resp))
+    });
+
+    console.log('grandmas alive')
+  }
   // function that makes API call to remove an item
   function removeItem(id) {
     fetch(`/remove-todo/${id}`);
