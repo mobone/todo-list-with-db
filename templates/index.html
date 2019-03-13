@@ -77,10 +77,11 @@
   // function that reads all items from db
   function readItems() {
     fetch('/get_all_tasks')
-    .then(resp => {
-    // empty form input once a response is received
-
-    console.log('>>', JSON.stringify(resp))
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson) {
+      console.log(JSON.stringify(myJson));
     });
 
     console.log('grandmas alive')
