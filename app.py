@@ -61,9 +61,8 @@ def addTodo():
     print(data.values())
 
     cur.execute(sql, (data['id'], data['value'], data['completed']))
-
-
     conn.commit()
+
     return jsonify(data)
 
 @app.route('/get_all_tasks/')
@@ -74,16 +73,31 @@ def get_all_tasks():
     sql = 'select * from todo_list'
     cur.execute(sql)
     all_tasks = cur.fetchall()
-    print('mooo',jsonify(all_tasks))
-    return jsonify(all_tasks)
+    tasks_list = []
+    for task in all_tasks:
+        task_dict = {'id': task[0],
+                    'value': task[1],
+                    'completed': task[2]}
+        tasks_list.append(task_dict)
+
+    print('mooo',jsonify(tasks_list))
+    return jsonify(tasks_list)
 
 
 
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
 def removeTodo(item_id):
+    conn = get_db()
+    cur = conn.cursor()
+
     data = {'id': item_id }
     pusher.trigger('todo', 'item-removed', data)
+    print(item_id)
+    sql = 'delete from todo_list where id == "%s"' % item_id
+    cur.execute(sql)
+    conn.commit()
+
     return jsonify(data)
 
 # endpoint for updating todo item
