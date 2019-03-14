@@ -77,17 +77,21 @@ function displayAllItems(itemsList) {
 for (var i = 0; i < itemsList.length; i++) {
     console.log('moooo',itemsList[i])
     let html = `
-    <tr>
-    <input class="toggle" type="checkbox" onclick="toggleComplete(this)"
-      data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">
+
+    <tr class="contained-table">
+
+      <button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+      data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button>
     <td>${itemsList[i]['time']}</td>
     <td>${itemsList[i]['task']}</td>
     <td>${itemsList[i]['assignee']}</td>
     <td>${itemsList[i]['overdue']}</td>
     <td>${itemsList[i]['comment']}</td>
     <td>${itemsList[i]['completed']}</td>
-    <button class="destroy" onclick="removeItem(''${itemsList[i]['id']}'')"></button>
+      <button class="btn btn-outline-danger btn-sm" onclick="removeItem(''${itemsList[i]['id']}'')">Delete</button>
+
     </tr>
+
     `
 
 
@@ -121,15 +125,15 @@ function appendToList(data) {
 let html = `
   <li id="${data.time}">
     <div class="view">
-      <input class="toggle" type="checkbox" onclick="toggleComplete(this)"
-        data-completed="${data.completed}" data-id="${data.time}">
+      <button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+        data-completed="${data.completed}" data-id="${data.time}">Select</button>
       <span>${data.time}</span>
       <span>${data.task}</span>
       <span>${data.assignee}</span>
       <span>${data.overdue}</span>
       <span>${data.comment}</span>
       <span>${data.completed}</span>
-      <button class="destroy" onclick="removeItem('${data.time}')"></button>
+      <button class=""btn btn-outline-danger btn-sm"" onclick="removeItem('${data.time}')">Delete</button>
     </div>
   </li>`;
 let list = document.querySelector(".todo-list")

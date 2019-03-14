@@ -110,7 +110,7 @@
           <input class="toggle" type="checkbox" onclick="toggleComplete(this)"
             data-completed="${data.completed}" data-id="${data.id}">
           <label>${data.value}</label>
-          <button class="destroy" onclick="removeItem('${data.id}')"></button>
+          <button class="destroy" onclick="removeItem('${data.id}')">Delete</button>
         </div>
       </li>`;
     let list = document.querySelector(".todo-list")

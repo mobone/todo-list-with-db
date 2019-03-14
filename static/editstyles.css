@@ -1,0 +1,54 @@
+body {
+  background-color: #CED6D6;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  display: grid;
+  display: flex;
+}
+
+.contained{
+  justify-content: center;
+  background-color: #7EA4A4;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.contained-table {
+  justify-content: center;
+  background-color: #7E8C8C;
+  border-radius: 20px;
+  padding: 40px;
+}
+.row {
+
+}
+
+.time {
+
+}
+
+.task {
+
+}
+
+.assignee {
+
+}
+
+.overdue {
+
+}
+
+.comment {
+
+}
+
+.todo-list {
+  width: 100%
+}
