@@ -46,21 +46,24 @@ def addTodo():
     cur = conn.cursor()
 
     data = json.loads(request.data) # load JSON data from request
+    """
+    time: time.value,
+    task: task.value,
+    assignee: assignee.value,
+    overdue: overdue.value,
+    comment: comment.value,
+    completed: 0
+    """
+
     pusher.trigger('todo', 'item-added', data) # trigger `item-added` event on `todo` channel
 
 
-    sql = "insert into base_todo_items_test values (?,?,?)"
-    print(data)
-
     columns = ', '.join(data.keys())
     placeholders = ', '.join('?' * len(data))
-    print(columns)
-    print(placeholders)
-    sql = 'INSERT into todo_list ({}) VALUES ({})'.format(columns, placeholders)
-    print(sql)
-    print(data.values())
 
-    cur.execute(sql, (data['id'], data['value'], data['completed']))
+    sql = 'INSERT into base_tasks ({}) VALUES ({})'.format(columns, placeholders)
+
+    cur.execute(sql, (data['time'], data['task'], data['assignee'], data['overdue'], data['comment'], data['completed']))
     conn.commit()
 
     return jsonify(data)
@@ -70,17 +73,23 @@ def get_all_tasks():
     conn = get_db()
     cur = conn.cursor()
 
-    sql = 'select * from todo_list'
+    sql = 'select * from base_tasks'
     cur.execute(sql)
     all_tasks = cur.fetchall()
     tasks_list = []
     for task in all_tasks:
-        task_dict = {'id': task[0],
-                    'value': task[1],
-                    'completed': task[2]}
+        task_dict = {
+                    'id': task[0],
+                    'time': task[1],
+                    'task': task[2],
+                    'assignee': task[3],
+                    'overdue': task[4],
+                    'comment': task[5],
+                    'completed': task[6]
+                    }
         tasks_list.append(task_dict)
 
-    print('mooo',jsonify(tasks_list))
+
     return jsonify(tasks_list)
 
 
@@ -94,7 +103,7 @@ def removeTodo(item_id):
     data = {'id': item_id }
     pusher.trigger('todo', 'item-removed', data)
     print(item_id)
-    sql = 'delete from todo_list where id == "%s"' % item_id
+    sql = 'delete from base_tasks where id == "%s"' % item_id
     cur.execute(sql)
     conn.commit()
 

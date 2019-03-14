@@ -1,4 +1,3 @@
-
 // Enable pusher logging for debugging - don't include this in production
 Pusher.logToConsole = true;
 // wow what a great code
@@ -35,12 +34,20 @@ channel.bind('item-updated', data => {
 function addItem(e) {
 // if enter key is pressed on the form input, add new item
 if (e.which == 13 || e.keyCode == 13) {
-  let item = document.querySelector('.new-todo');
+  let time = document.querySelector('.time');
+  let task = document.querySelector('.task');
+  let assignee = document.querySelector('.assignee');
+  let overdue = document.querySelector('.overdue');
+  let comment = document.querySelector('.comment');
+  console.log('adding task')
   fetch('/add-todo', {
     method: 'post',
     body: JSON.stringify({
-      id: `item-${Date.now()}`,
-      value: item.value,
+      time: time.value,
+      task: task.value,
+      assignee: assignee.value,
+      overdue: overdue.value,
+      comment: comment.value,
       completed: 0
     })
   })
@@ -54,14 +61,44 @@ if (e.which == 13 || e.keyCode == 13) {
 // function that reads all items from db
 function readItems() {
 fetch('/get_all_tasks')
-.then(resp => {
-// empty form input once a response is received
-
-console.log('>>', JSON.stringify(resp))
+.then(function(response) {
+  return response.json();
+})
+.then(function(itemsList) {
+  console.log(itemsList)
+  displayAllItems(itemsList)
 });
 
 console.log('grandmas alive')
 }
+
+// adds the items to the innerHTML
+function displayAllItems(itemsList) {
+for (var i = 0; i < itemsList.length; i++) {
+    console.log('moooo',itemsList[i])
+    let html = `
+    <tr>
+    <input class="toggle" type="checkbox" onclick="toggleComplete(this)"
+      data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">
+    <td>${itemsList[i]['time']}</td>
+    <td>${itemsList[i]['task']}</td>
+    <td>${itemsList[i]['assignee']}</td>
+    <td>${itemsList[i]['overdue']}</td>
+    <td>${itemsList[i]['comment']}</td>
+    <td>${itemsList[i]['completed']}</td>
+    <button class="destroy" onclick="removeItem(''${itemsList[i]['id']}'')"></button>
+    </tr>
+    `
+
+
+
+  let list = document.querySelector(".todo-list")
+  list.innerHTML += html;
+
+}
+
+}
+
 // function that makes API call to remove an item
 function removeItem(id) {
 fetch(`/remove-todo/${id}`);
@@ -82,12 +119,17 @@ fetch(`/update-todo/${id}`, {
 // helper function to append new ToDo item to current ToDo list
 function appendToList(data) {
 let html = `
-  <li id="${data.id}">
+  <li id="${data.time}">
     <div class="view">
       <input class="toggle" type="checkbox" onclick="toggleComplete(this)"
-        data-completed="${data.completed}" data-id="${data.id}">
-      <label>${data.value}</label>
-      <button class="destroy" onclick="removeItem('${data.id}')"></button>
+        data-completed="${data.completed}" data-id="${data.time}">
+      <span>${data.time}</span>
+      <span>${data.task}</span>
+      <span>${data.assignee}</span>
+      <span>${data.overdue}</span>
+      <span>${data.comment}</span>
+      <span>${data.completed}</span>
+      <button class="destroy" onclick="removeItem('${data.time}')"></button>
     </div>
   </li>`;
 let list = document.querySelector(".todo-list")
