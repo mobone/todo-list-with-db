@@ -45,26 +45,23 @@ def addTodo():
     conn = get_db()
     cur = conn.cursor()
 
-    data = json.loads(request.data) # load JSON data from request
-    """
-    time: time.value,
-    task: task.value,
-    assignee: assignee.value,
-    overdue: overdue.value,
-    comment: comment.value,
-    completed: 0
-    """
+    # load JSON data from request
+    data = json.loads(request.data)
 
-    pusher.trigger('todo', 'item-added', data) # trigger `item-added` event on `todo` channel
-
-
+    # insert data into database
     columns = ', '.join(data.keys())
     placeholders = ', '.join('?' * len(data))
-
     sql = 'INSERT into base_tasks ({}) VALUES ({})'.format(columns, placeholders)
-
     cur.execute(sql, (data['time'], data['task'], data['assignee'], data['overdue'], data['comment'], data['completed']))
     conn.commit()
+
+    # query to get task id
+    sql = 'select id from base_tasks where time=="%s" and task=="%s"' % (data['time'], data['task'])
+    id = cur.execute(sql)
+    data['id'] = id.fetchall()[0]
+
+    # trigger `item-added` event on `todo` channel
+    pusher.trigger('todo', 'item-added', data)
 
     return jsonify(data)
 
@@ -102,7 +99,7 @@ def removeTodo(item_id):
 
     data = {'id': item_id }
     pusher.trigger('todo', 'item-removed', data)
-    print(item_id)
+
     sql = 'delete from base_tasks where id == "%s"' % item_id
     cur.execute(sql)
     conn.commit()

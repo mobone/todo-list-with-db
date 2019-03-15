@@ -17,14 +17,14 @@ channel.bind('item-added', data => {
 
 // listen for item-removed events
 channel.bind('item-removed', data => {
-  let item = document.querySelector(`#${data.id}`);
+  let item = document.querySelector(`#row-${data.id}`);
   item.parentNode.removeChild(item);
 });
 
 // listen for item-updated events
 channel.bind('item-updated', data => {
-  let elem = document.querySelector(`#${data.id} .toggle`);
-  let item = document.querySelector(`#${data.id}`);
+  let elem = document.querySelector(`#row-${data.id} .toggle`);
+  let item = document.querySelector(`#row-${data.id}`);
   item.classList.toggle("completed");
   elem.dataset.completed = data.completed;
   elem.checked = data.completed == 1;
@@ -39,7 +39,7 @@ if (e.which == 13 || e.keyCode == 13) {
   let assignee = document.querySelector('.assignee');
   let overdue = document.querySelector('.overdue');
   let comment = document.querySelector('.comment');
-  console.log('adding task')
+
   fetch('/add-todo', {
     method: 'post',
     body: JSON.stringify({
@@ -53,89 +53,81 @@ if (e.which == 13 || e.keyCode == 13) {
   })
   .then(resp => {
     // empty form input once a response is received
-    item.value = ""
+    time.value = "";
+    task.value = ""
+    assignee.value = ""
+    overdue.value = ""
+    comment.value = ""
+
   });
 }
 }
 
 // function that reads all items from db
 function readItems() {
-fetch('/get_all_tasks')
-.then(function(response) {
-  return response.json();
-})
-.then(function(itemsList) {
-  console.log(itemsList)
-  displayAllItems(itemsList)
-});
-
-console.log('grandmas alive')
+  fetch('/get_all_tasks')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(itemsList) {
+      displayAllItems(itemsList)
+    });
 }
 
 // adds the items to the innerHTML
 function displayAllItems(itemsList) {
-for (var i = 0; i < itemsList.length; i++) {
-    console.log('moooo',itemsList[i])
-    let html = `
+  for (var i = 0; i < itemsList.length; i++) {
+    //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+    //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
+      let html = `
+      <tr class="contained-table" id="row-${itemsList[i]['id']}">
+      <td>${itemsList[i]['time']}</td>
+      <td>${itemsList[i]['task']}</td>
+      <td>${itemsList[i]['assignee']}</td>
+      <td>${itemsList[i]['overdue']}</td>
+      <td>${itemsList[i]['comment']}</td>
+      <td>${itemsList[i]['completed']}</td>
+        <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td
 
-    <tr class="contained-table">
-
-      <button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
-      data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button>
-    <td>${itemsList[i]['time']}</td>
-    <td>${itemsList[i]['task']}</td>
-    <td>${itemsList[i]['assignee']}</td>
-    <td>${itemsList[i]['overdue']}</td>
-    <td>${itemsList[i]['comment']}</td>
-    <td>${itemsList[i]['completed']}</td>
-      <button class="btn btn-outline-danger btn-sm" onclick="removeItem(''${itemsList[i]['id']}'')">Delete</button>
-
-    </tr>
-
-    `
-
-
-
-  let list = document.querySelector(".todo-list")
-  list.innerHTML += html;
-
-}
-
+      </tr>
+      `
+    let list = document.querySelector(".todo-list")
+    list.innerHTML += html;
+  }
 }
 
 // function that makes API call to remove an item
 function removeItem(id) {
-fetch(`/remove-todo/${id}`);
+  fetch(`/remove-todo/${id}`);
 }
 
 // function that makes API call to update an item
 // toggles the state of the item between complete and
 // incomplete states
 function toggleComplete(elem) {
-let id = elem.dataset.id,
+  let id = elem.dataset.id,
     completed = (elem.dataset.completed == "1" ? "0" : "1");
-fetch(`/update-todo/${id}`, {
-  method: 'post',
-  body: JSON.stringify({ completed })
-});
+  fetch(`/update-todo/${id}`, {
+    method: 'post',
+    body: JSON.stringify({ completed })
+  });
 }
 
 // helper function to append new ToDo item to current ToDo list
 function appendToList(data) {
-let html = `
-  <li id="${data.time}">
-    <div class="view">
-      <button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
-        data-completed="${data.completed}" data-id="${data.time}">Select</button>
-      <span>${data.time}</span>
-      <span>${data.task}</span>
-      <span>${data.assignee}</span>
-      <span>${data.overdue}</span>
-      <span>${data.comment}</span>
-      <span>${data.completed}</span>
-      <button class=""btn btn-outline-danger btn-sm"" onclick="removeItem('${data.time}')">Delete</button>
-    </div>
-  </li>`;
-let list = document.querySelector(".todo-list")
-list.innerHTML += html;
+  //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+  //data-completed="${data.completed}" data-id="${data.id}">Select</button></td>
+  let html = `
+      <tr class="contained-table" id="row-${data.id}">
+      <td>${data.time}</td>
+      <td>${data.task}</td>
+      <td>${data.assignee}</td>
+      <td>${data.overdue}</td>
+      <td>${data.comment}</td>
+      <td>${data.completed}</td>
+        <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
+
+      </tr>`;
+  let list = document.querySelector(".todo-list")
+  list.innerHTML += html;
 };
