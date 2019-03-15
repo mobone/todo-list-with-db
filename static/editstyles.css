@@ -10,24 +10,32 @@ h1 {
 .container {
   display: grid;
   display: flex;
-}
-
-.contained{
-  justify-content: center;
-  background-color: #7EA4A4;
-  padding: 10px;
-  border-radius: 20px;
-}
-
-.contained-table {
-  justify-content: center;
-  background-color: #7E8C8C;
-  border-radius: 20px;
-  padding: 40px;
+  margin: auto;
 }
 .row {
-
+  justify-content: center;
+  align-items: center;
+  width: 100%
 }
+.form-contained{
+  justify-content: center;
+  background-color: #7EA4A4;
+  padding: 15px;
+  border-radius: 30px;
+}
+.tdelement {
+  background-color: red;
+  padding: 60px;
+  border-radius: 30px;
+}
+.contained-table {
+  justify-content: center;
+  align-items: center;
+  background-color: #7E8C8C;
+  padding: 40px;
+  width: 100%;
+}
+
 
 .time {
 
