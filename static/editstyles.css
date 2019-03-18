@@ -35,6 +35,8 @@ td{
 	background-color: #555
 	color: white;
 	display: inline;
+  padding: 8px;
+  text-decoration: none;
 }
 
 .navbar:hover {
