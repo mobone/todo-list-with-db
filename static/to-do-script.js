@@ -33,7 +33,7 @@
             <td>${data.overdue}</td>
             <td>${data.comment}</td>
             <td>${data.day}</td>
-            <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
+            <td><button type="button" class="btn btn-outline-warning btn-sm" onclick="editItem('${data.id}')">Edit Task</button></td>
             <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
             </tr>`;
         let list = document.querySelector(".todo-list")
@@ -88,5 +88,16 @@
     .then(function(data) {
       let item = document.querySelector(`#row-${data.id}`);
         item.parentNode.removeChild(item);
+    })
+  }
+
+  function editItem(id) {
+    fetch(`/edit-todo/${id}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      let item = document.querySelector(`#row-${data.id}`);
+        item.parentNode.appendChild(item);
     })
   }
