@@ -19,23 +19,24 @@
     <a href="/templates/index.html"> Index </a>
     <a href="/templates/add_users.html"> Add Users </a>
   </div>
+
   <div class="container">
   <div class="row justify-content-md-center">
 
     <div class="w-100">
-      <h1>Tasks</h1>
+      <h1>Add User</h1>
     </div>
-    <p>
+
 
       <form>
-      <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
-      <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
-      <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)" >
-      <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
-      <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
+      <input class="firstName" placeholder="First Name" autofocus="" onkeypress="addItem(event)" >
+      <input class="lastName" placeholder="Last Name" autofocus="" onkeypress="addItem(event)" > <br>
+      <input class="addAdmin" type="radio" placeholder="Admin User"> Admin User
+      <input class="addStandard" type="radio" placeholder="Standard User"> Standard User <br>
+      <button type="submit"> Submit </button>
 
       </form>
-    </p>
+
 
 
 

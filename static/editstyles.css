@@ -31,24 +31,15 @@ td{
   /* background-color: #191717; */
 }
 
-.time {
-
+.navbar {
+	background-color: #555
+	color: white;
+	display: inline;
 }
 
-.task {
-
-}
-
-.assignee {
-
-}
-
-.overdue {
-
-}
-
-.comment {
-
+.navbar:hover {
+	background-color: white;
+	color: #555;
 }
 
 .todo-list {
