@@ -47,3 +47,8 @@ td{
 .todo-list {
   width: 100%;
 }
+
+.form {
+  background-color: #191717;
+  padding: 30px;
+}

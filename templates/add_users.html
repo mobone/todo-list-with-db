@@ -10,14 +10,14 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 
-  <script src="/static/to-do-script.js"></script>
+  <!-- <script src="/static/to-do-script.js"></script> -->
   <title>Realtime Todo List</title>
 </head>
 
 <body onload="readItems()">
   <div class="navbar">
-    <a href="/"> Index </a>
-    <a href="/add-users"> Add Users </a>
+    <a class="navbar" href="/"> Index </a>
+    <a class="navbar" href="/add-users"> Add Users </a>
   </div>
 
   <div class="container">
@@ -27,7 +27,7 @@
       <h1>Add User</h1>
     </div>
 
-
+    <div class="form color">
       <form>
       <input class="firstName" placeholder="First Name" autofocus="" onkeypress="addItem(event)" >
       <input class="lastName" placeholder="Last Name" autofocus="" onkeypress="addItem(event)" > <br>
@@ -36,7 +36,7 @@
       <button type="submit"> Submit </button>
 
       </form>
-
+    </div>
 
 
 
