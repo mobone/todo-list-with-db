@@ -6,6 +6,7 @@ body {
 
 h1 {
   text-align: center;
+  margin-top: 20px;
 }
 
 .container {
@@ -14,15 +15,17 @@ h1 {
 }
 
 .contained {
-  background-color: #191717;
-  padding: 10px;
-}
-
-.taable {
   /* background-color: #191717; */
   padding: 10px;
+  /* background-color: #1E5000; */ -- toggled color
 }
 
+table {
+  background-color: #191717;
+}
+tr {
+  border-bottom: 2pt solid #BAAEAE;
+}
 td{
   padding: 10px;
   /* background-color: #191717; */
