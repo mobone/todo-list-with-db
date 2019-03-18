@@ -105,6 +105,7 @@
 
 
   function readUsers() {
+    console.log('reading users')
     fetch('/get_all_users')
       .then(function(response) {
         return response.json();

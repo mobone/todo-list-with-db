@@ -75,19 +75,6 @@ def get_all_tasks():
 
     return jsonify(tasks_list)
 
-@app.route('/add-users', methods = ['GET','POST'])
-def add_users_page():
-    if request.method == 'POST':
-        conn = get_db()
-        cur = conn.cursor()
-        sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
-
-        cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
-        conn.commit()
-        print('user added')
-    return render_template('add_users.html')
-
-
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
 def removeTodo(item_id):
@@ -101,6 +88,38 @@ def removeTodo(item_id):
     conn.commit()
 
     return jsonify(data)
+
+# endpoint for adding a user and rending main page
+@app.route('/add-users', methods = ['GET','POST'])
+def add_users_page():
+    if request.method == 'POST':
+        conn = get_db()
+        cur = conn.cursor()
+        sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
+
+        cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
+        conn.commit()
+        print('user added')
+    return render_template('add_users.html')
+
+@app.route('/get_all_users')
+def get_all_users():
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'select * from users'
+    cur.execute(sql)
+    all_users = cur.fetchall()
+    users_list = []
+    for user in all_users:
+        user_dict = {
+                    'firstname': user[0],
+                    'lastname': user[1],
+                    'usertype': user[2]
+                    }
+        users_list.append(user_dict)
+    print('returning users', users_list)    
+    return jsonify(users_list)
+
 
 # run Flask app in debug mode
 app.run(debug=True)
