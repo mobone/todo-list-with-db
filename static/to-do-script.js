@@ -32,6 +32,8 @@
             <td>${data.assignee}</td>
             <td>${data.overdue}</td>
             <td>${data.comment}</td>
+            <td>${data.day}</td>
+            <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
             <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
             </tr>`;
         let list = document.querySelector(".todo-list")
@@ -64,7 +66,9 @@
         <td>${itemsList[i]['assignee']}</td>
         <td>${itemsList[i]['overdue']}</td>
         <td>${itemsList[i]['comment']}</td>
+        <td>${itemsList[i]['day']}</td>
 
+          <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
           <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td>
 
 
