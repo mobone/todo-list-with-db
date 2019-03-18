@@ -14,7 +14,7 @@
   <title>Realtime Todo List</title>
 </head>
 
-<body onload="readItems()">
+<body onload="readUsers()">
   <div class="navbar">
     <a class="navbar" href="/"> Index </a>
     <a class="navbar" href="/add-users"> Add Users </a>
@@ -31,8 +31,8 @@
       <form action="/add-users" method="post">
         <input class="firstName" name="firstName" placeholder="First Name" autofocus="">
         <input class="lastName" name="lastName" placeholder="Last Name" autofocus=""> <br>
-        <input class="addAdmin" type="radio" placeholder="Admin User" value="admin" name="userType"> Admin User
-        <input class="addStandard" type="radio" placeholder="Standard User" value="standard" name="userType" checked> Standard User <br>
+        <input class="userType" type="radio" placeholder="Admin User" value="admin" name="userType"> Admin User
+        <input class="userType" type="radio" placeholder="Standard User" value="standard" name="userType" checked> Standard User <br>
         <button type="submit"> Submit </button>
       </form>
     </div>
@@ -40,7 +40,7 @@
 
 
 
-      <table class="todo-list" style="width: 100%"></table>
+      <table class="addedUsers" style="width: 100%"></table>
 
 
     <footer class="footer"></footer>

@@ -101,3 +101,15 @@
         item.parentNode.appendChild(item);
     })
   }
+
+
+
+  function readUsers() {
+    fetch('/get_all_users')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(itemsList) {
+        displayAllItems(itemsList)
+      });
+  }
