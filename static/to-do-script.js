@@ -124,11 +124,16 @@
         <tr class="taable" id="row-${itemsList[i]['id']}">
         <td>${itemsList[i]['firstname']}</td>
         <td>${itemsList[i]['lastname']}</td>
-        <td>${itemsList[i]['userType']}</td>
+        <td>${itemsList[i]['usertype']}</td>
 
 
           <td><button type="button" class="btn btn-outline-warning btn-sm">Edit User</button></td>
-          <td><button class="btn btn-outline-danger btn-sm" onclick="removeUser('${itemsList[i]['id']}')">Delete</button></td>
+          <td>
+          <form action="/remove-user" method="post">
+          <input hidden name="firstname" value=${itemsList[i]['firstname']}>
+          <input hidden name="lastname" value=${itemsList[i]['lastname']}>
+          <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button></td>
+          </form>
 
 
         </tr>

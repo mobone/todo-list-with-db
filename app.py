@@ -117,8 +117,17 @@ def get_all_users():
                     'usertype': user[2]
                     }
         users_list.append(user_dict)
-    print('returning users', users_list)    
+    print('returning users', users_list)
     return jsonify(users_list)
+
+@app.route('/remove-user', methods = ['POST'])
+def remove_user():
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'delete from users where firstname == "%s" and lastname == "%s"' % (request.form['firstname'], request.form['lastname'])
+    cur.execute(sql)
+    conn.commit()
+    return render_template('add_users.html')
 
 
 # run Flask app in debug mode
