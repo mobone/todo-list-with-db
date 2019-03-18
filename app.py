@@ -75,6 +75,9 @@ def get_all_tasks():
 
     return jsonify(tasks_list)
 
+@app.route('/add-users')
+def add_users_page():
+    return render_template('add_users.html')
 
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
