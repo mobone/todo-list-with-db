@@ -100,7 +100,7 @@ def add_users_page():
         matched_users = cur.fetchall()
         if len(matched_users):
             print('user already exists')
-        else:            
+        else:
             sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
             cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
             conn.commit()
@@ -119,7 +119,7 @@ def get_all_users():
         user_dict = {
                     'firstname': user[0],
                     'lastname': user[1],
-                    'usertype': user[2]
+                    'userType': user[2]
                     }
         users_list.append(user_dict)
     print('returning users', users_list)
