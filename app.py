@@ -95,11 +95,16 @@ def add_users_page():
     if request.method == 'POST':
         conn = get_db()
         cur = conn.cursor()
-        sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
-
-        cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
-        conn.commit()
-        print('user added')
+        sql = 'select * from users where firstname=="%s" and lastname=="%s"' % (request.form['firstName'], request.form['lastName'])
+        cur.execute(sql)
+        matched_users = cur.fetchall()
+        if len(matched_users):
+            print('user already exists')
+        else:            
+            sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
+            cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
+            conn.commit()
+            print('user added')
     return render_template('add_users.html')
 
 @app.route('/get_all_users')
