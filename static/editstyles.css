@@ -1,6 +1,7 @@
 body {
-  background-color: #CED6D6;
+  background-color: #272323;
   font-family: 'Open Sans Condensed', sans-serif;
+  color: #BAAEAE;
 }
 
 h1 {
@@ -12,21 +13,19 @@ h1 {
   display: flex;
 }
 
-.contained{
-  justify-content: center;
-  background-color: #7EA4A4;
+.contained {
+  background-color: #191717;
   padding: 10px;
-  border-radius: 20px;
 }
 
-.contained-table {
-  justify-content: center;
-  background-color: #7E8C8C;
-  border-radius: 20px;
-  padding: 40px;
+.taable {
+  /* background-color: #191717; */
+  padding: 10px;
 }
-.row {
 
+td{
+  padding: 10px;
+  /* background-color: #191717; */
 }
 
 .time {
@@ -50,5 +49,5 @@ h1 {
 }
 
 .todo-list {
-  width: 100%
+  width: 100%;
 }

@@ -80,14 +80,16 @@ function displayAllItems(itemsList) {
     //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
     //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
       let html = `
-      <tr class="contained-table" id="row-${itemsList[i]['id']}">
+      <tr class="taable" id="row-${itemsList[i]['id']}">
       <td>${itemsList[i]['time']}</td>
       <td>${itemsList[i]['task']}</td>
       <td>${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
       <td>${itemsList[i]['completed']}</td>
-        <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td
+        
+        <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td>
+
 
       </tr>
       `
