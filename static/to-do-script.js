@@ -127,12 +127,13 @@
         <td>${itemsList[i]['usertype']}</td>
 
 
-          <td><button type="button" class="btn btn-outline-warning btn-sm">Edit User</button></td>
+
           <td>
           <form action="/remove-user" method="post">
           <input hidden name="firstname" value=${itemsList[i]['firstname']}>
           <input hidden name="lastname" value=${itemsList[i]['lastname']}>
-          <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button></td>
+          <td><button type="button" class="btn btn-outline-warning btn-sm">Edit User</button></td>
+          <td><button type="submit" class="btn btn-outline-danger btn-sm">Delete</button></td>
           </form>
 
 
