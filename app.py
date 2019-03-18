@@ -75,9 +75,14 @@ def get_all_tasks():
 
     return jsonify(tasks_list)
 
-@app.route('/add-users')
+@app.route('/add-users', methods = ['GET','POST'])
 def add_users_page():
+    if request.method == 'POST':
+        print(request.form)
+        print(request.form['firstName'],request.form['lastName'],request.form['userType'],request.form['userType'])
+        print('trying to submit form')
     return render_template('add_users.html')
+
 
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
