@@ -111,6 +111,29 @@
         return response.json();
       })
       .then(function(itemsList) {
-        displayAllItems(itemsList)
+        displayAllUsers(itemsList)
       });
+  }
+
+
+  function displayAllUsers(itemsList) {
+    for (var i = 0; i < itemsList.length; i++) {
+      //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+      //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
+        let html = `
+        <tr class="taable" id="row-${itemsList[i]['id']}">
+        <td>${itemsList[i]['firstname']}</td>
+        <td>${itemsList[i]['lastname']}</td>
+        <td>${itemsList[i]['userType']}</td>
+
+
+          <td><button type="button" class="btn btn-outline-warning btn-sm">Edit User</button></td>
+          <td><button class="btn btn-outline-danger btn-sm" onclick="removeUser('${itemsList[i]['id']}')">Delete</button></td>
+
+
+        </tr>
+        `
+      let list = document.querySelector(".addedUsers")
+      list.innerHTML += html;
+    }
   }
