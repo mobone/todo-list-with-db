@@ -1,4 +1,4 @@
-function addItem(e) {
+  function addItem(e) {
     // if enter key is pressed on the form input, add new item
     if (e.which == 13 || e.keyCode == 13) {
       let time = document.querySelector('.time');
@@ -17,6 +17,11 @@ function addItem(e) {
           completed: 0
         })
       }).then(function(response) {
+        time.value = "";
+        task.value = ""
+        assignee.value = ""
+        overdue.value = ""
+        comment.value = ""
         return response.json();
       }).then(function(data) {
         console.log(JSON.stringify(data));
@@ -34,4 +39,50 @@ function addItem(e) {
       });
 
     }
+  }
+
+  // function that reads all items from db
+  function readItems() {
+    fetch('/get_all_tasks')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(itemsList) {
+        displayAllItems(itemsList)
+      });
+  }
+
+  // adds the items to the innerHTML
+  function displayAllItems(itemsList) {
+    for (var i = 0; i < itemsList.length; i++) {
+      //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+      //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
+        let html = `
+        <tr class="taable" id="row-${itemsList[i]['id']}">
+        <td>${itemsList[i]['time']}</td>
+        <td>${itemsList[i]['task']}</td>
+        <td>${itemsList[i]['assignee']}</td>
+        <td>${itemsList[i]['overdue']}</td>
+        <td>${itemsList[i]['comment']}</td>
+
+          <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td>
+
+
+        </tr>
+        `
+      let list = document.querySelector(".todo-list")
+      list.innerHTML += html;
+    }
+  }
+
+  // function that makes API call to remove an item
+  function removeItem(id) {
+    fetch(`/remove-todo/${id}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      let item = document.querySelector(`#row-${data.id}`);
+        item.parentNode.removeChild(item);
+    })
   }

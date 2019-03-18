@@ -52,5 +52,43 @@ def addTodo():
     print(data)
     return jsonify(data)
 
+@app.route('/get_all_tasks/')
+def get_all_tasks():
+    conn = get_db()
+    cur = conn.cursor()
+
+    sql = 'select * from base_tasks'
+    cur.execute(sql)
+    all_tasks = cur.fetchall()
+    tasks_list = []
+    for task in all_tasks:
+        task_dict = {
+                    'id': task[0],
+                    'time': task[1],
+                    'task': task[2],
+                    'assignee': task[3],
+                    'overdue': task[4],
+                    'comment': task[5]
+                    }
+        tasks_list.append(task_dict)
+
+
+    return jsonify(tasks_list)
+
+
+# endpoint for deleting todo item
+@app.route('/remove-todo/<item_id>')
+def removeTodo(item_id):
+    conn = get_db()
+    cur = conn.cursor()
+
+    data = {'id': item_id }
+
+    sql = 'delete from base_tasks where id == "%s"' % item_id
+    cur.execute(sql)
+    conn.commit()
+
+    return jsonify(data)
+
 # run Flask app in debug mode
 app.run(debug=True)
