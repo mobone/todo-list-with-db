@@ -78,9 +78,13 @@ def get_all_tasks():
 @app.route('/add-users', methods = ['GET','POST'])
 def add_users_page():
     if request.method == 'POST':
-        print(request.form)
-        print(request.form['firstName'],request.form['lastName'],request.form['userType'],request.form['userType'])
-        print('trying to submit form')
+        conn = get_db()
+        cur = conn.cursor()
+        sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
+
+        cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
+        conn.commit()
+        print('user added')
     return render_template('add_users.html')
 
 
