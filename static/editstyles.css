@@ -31,7 +31,20 @@ td{
   padding: 10px;
   /* background-color: #191717; */
 }
+.userType {
+  margin: 10px;
+}
+.submitcontain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  margin: auto;
 
+}
+.submit {
+  margin: 20px;
+}
 .navbar {
 	background-color: #555
 	color: #BAAEAE;
