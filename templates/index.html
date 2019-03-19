@@ -1,3 +1,4 @@
+<DOCTYPE! html>
 <!-- ./templates/index.html -->
 <html>
 <head>
@@ -18,6 +19,8 @@
   <div class="navbar">
     <a class="navbar" href="/"> Index </a>
     <a class="navbar" href="/add-users"> Add Users </a>
+    <!-- "userPage.html"  is the users view of the tasks -->
+    <a class="navbar" href="/user-page"> Task Portal </a>
   </div>
   <div class="container">
   <div class="row">
@@ -28,13 +31,12 @@
     <p>
       <div class="container">
       <form>
-      <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
-      <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
-      <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)" >
-      <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
-      <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
-      <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)" >
-
+        <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)">
+        <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)">
+        <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)">
+        <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)">
+        <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)">
+        <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)">
       </form>
     </div>
     </p>
