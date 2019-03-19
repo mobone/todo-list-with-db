@@ -1,12 +1,23 @@
 # ./app.py
 
 from flask import Flask, render_template, request, jsonify
+from pusher import Pusher
 import json
 import sqlite3
 from flask import g
 
 # create flask app
 app = Flask(__name__)
+
+# configure pusher object
+pusher = Pusher(
+  app_id = "734358",
+  key = "47bd5e95a97b6c383eee",
+  secret = "f4c6e0a9c545b7dcc28a",
+  cluster = "us2",
+  ssl=True
+)
+
 
 # database connection
 DATABASE = './database.db'
@@ -47,9 +58,11 @@ def addTodo():
     # query to get task id
     sql = 'select id from base_tasks where time=="%s" and task=="%s"' % (data['time'], data['task'])
     id = cur.execute(sql)
-    data['id'] = id.fetchone()[0]
+    data['id'] = id.fetchall()[0]
 
-    print(data)
+    # trigger `item-added` event on `todo` channel
+    pusher.trigger('todo', 'item-added', data)
+
     return jsonify(data)
 
 @app.route('/get_all_tasks/')
@@ -68,12 +81,15 @@ def get_all_tasks():
                     'task': task[2],
                     'assignee': task[3],
                     'overdue': task[4],
-                    'comment': task[5]
+                    'comment': task[5],
+                    'completed': task[6]
                     }
         tasks_list.append(task_dict)
 
 
     return jsonify(tasks_list)
+
+
 
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
@@ -82,6 +98,7 @@ def removeTodo(item_id):
     cur = conn.cursor()
 
     data = {'id': item_id }
+    pusher.trigger('todo', 'item-removed', data)
 
     sql = 'delete from base_tasks where id == "%s"' % item_id
     cur.execute(sql)
@@ -89,51 +106,15 @@ def removeTodo(item_id):
 
     return jsonify(data)
 
-# endpoint for adding a user and rending main page
-@app.route('/add-users', methods = ['GET','POST'])
-def add_users_page():
-    if request.method == 'POST':
-        conn = get_db()
-        cur = conn.cursor()
-        sql = 'select * from users where firstname=="%s" and lastname=="%s"' % (request.form['firstName'], request.form['lastName'])
-        cur.execute(sql)
-        matched_users = cur.fetchall()
-        if len(matched_users):
-            print('user already exists')
-        else:
-            sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
-            cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
-            conn.commit()
-            print('user added')
-    return render_template('add_users.html')
-
-@app.route('/get_all_users')
-def get_all_users():
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'select * from users'
-    cur.execute(sql)
-    all_users = cur.fetchall()
-    users_list = []
-    for user in all_users:
-        user_dict = {
-                    'firstname': user[0],
-                    'lastname': user[1],
-                    'userType': user[2]
-                    }
-        users_list.append(user_dict)
-    print('returning users', users_list)
-    return jsonify(users_list)
-
-@app.route('/remove-user', methods = ['POST'])
-def remove_user():
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'delete from users where firstname == "%s" and lastname == "%s"' % (request.form['firstname'], request.form['lastname'])
-    cur.execute(sql)
-    conn.commit()
-    return render_template('add_users.html')
-
+# endpoint for updating todo item
+@app.route('/update-todo/<item_id>', methods = ['POST'])
+def updateTodo(item_id):
+    data = {
+    'id': item_id,
+    'completed': json.loads(request.data).get('completed', 0)
+    }
+    pusher.trigger('todo', 'item-updated', data)
+    return jsonify(data)
 
 # run Flask app in debug mode
 app.run(debug=True)

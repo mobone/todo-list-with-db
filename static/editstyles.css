@@ -1,10 +1,12 @@
 body {
-  background-color: #CED6D6;
-  font-family: 'Open Sans Condensed', sans-serif;
+  background-color: #272323;
+  font-family: 'Saira Semi Condensed', sans-serif;
+  color: #BAAEAE;
 }
 
 h1 {
   text-align: center;
+  margin-top: 20px;
 }
 
 .container {
@@ -12,51 +14,46 @@ h1 {
   display: flex;
   margin: auto;
 }
-.row {
-  justify-content: center;
-  align-items: center;
-  width: 100%
-}
-.form-contained{
-  justify-content: center;
-  background-color: #7EA4A4;
-  padding: 15px;
-  border-radius: 30px;
-}
-.tdelement {
-  background-color: red;
-  padding: 60px;
-  border-radius: 30px;
-}
-.contained-table {
-  justify-content: center;
-  align-items: center;
-  background-color: #7E8C8C;
-  padding: 40px;
-  width: 100%;
+
+.contained {
+  /* background-color: #191717; */
+  padding: 10px;
+  /* background-color: #1E5000; */ -- toggled color
 }
 
-
-.time {
-
+table {
+  background-color: #191717;
+}
+tr {
+  border-bottom: 2pt solid #BAAEAE;
+}
+td{
+  padding: 10px;
+  /* background-color: #191717; */
 }
 
-.task {
-
+.navbar {
+	background-color: #555
+	color: white;
+	display: inline;
+  padding: 8px;
+  text-decoration: none;
 }
 
-.assignee {
-
-}
-
-.overdue {
-
-}
-
-.comment {
-
+.navbar:hover {
+	background-color: white;
+	color: #555;
 }
 
 .todo-list {
-  width: 100%
+  width: 100%;
 }
+
+.form {
+  background-color: #191717;
+  padding: 30px;
+}
+ h4 {
+   text-align: center;
+   padding-bottom: 10px;
+ }

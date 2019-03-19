@@ -8,41 +8,45 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+  <
 
   <script src="/static/to-do-script.js"></script>
   <title>Realtime Todo List</title>
 </head>
 
-<body onload="readItems()">
+<body onload="readUsers()">
   <div class="navbar">
     <a class="navbar" href="/"> Index </a>
     <a class="navbar" href="/add-users"> Add Users </a>
   </div>
+
   <div class="container">
   <div class="row">
 
     <div class="w-100">
-      <h1>Tasks</h1>
+      <h1>Users</h1>
     </div>
-    <p>
 
-      <form>
-      <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
-      <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
-      <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)" >
-      <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
-      <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
-      <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)" >
+    <div class="form color">
+      <form action="/add-users" method="post">
+        <h4> Add A User </h4>
+        <input class="firstName" name="firstName" placeholder="First Name" autofocus="">
+        <input class="lastName" name="lastName" placeholder="Last Name" autofocus=""> <br>
+        <input class="userType" type="radio" placeholder="Admin User" value="admin" name="userType"> Admin User
+        <input class="userType" type="radio" placeholder="Standard User" value="standard" name="userType" checked> Standard User <br>
+        <button type="submit"> Submit </button>
       </form>
-    </p>
+    </div>
+
+    <div class="form color">
 
 
+        <table class="addedUsers">
+          <h4> User Database </h4>
+        </table>
 
 
-      <table class="todo-list" style="width: 100%"></table>
-
-
+    </div>
     <footer class="footer"></footer>
   </div>
   </div>
