@@ -10,9 +10,9 @@ h1 {
 }
 
 .container {
-  display: grid;
   display: flex;
   margin: auto;
+
 }
 
 .contained {
@@ -20,9 +20,14 @@ h1 {
   padding: 10px;
   /* background-color: #1E5000; */ -- toggled color
 }
+/* .rowone {
+  justify-content: center;
+  align-content: center;
+} */
 
 table {
   background-color: #191717;
+  width: 100%;
 }
 tr {
   border-bottom: 2pt solid #BAAEAE;
@@ -66,6 +71,8 @@ td{
 .form {
   background-color: #191717;
   padding: 30px;
+  width: 100%;
+  margin-left: 5px;
 }
  h4 {
    text-align: center;
