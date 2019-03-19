@@ -12,6 +12,7 @@ h1 {
 .container {
   display: grid;
   display: flex;
+  margin: auto;
 }
 
 .contained {
