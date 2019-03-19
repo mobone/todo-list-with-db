@@ -25,7 +25,9 @@ td{
   align-items: center;
   margin: auto;
 }
-
+.row{
+  margin-bottom: 5px;
+}
 .contained {
   /* background-color: #191717; */
   padding: 10px;
@@ -79,7 +81,9 @@ td{
   padding: 30px;
   width: 100%;
   margin-left: 5px;
+
 }
+
  h4 {
    text-align: center;
    padding-bottom: 10px;
