@@ -34,15 +34,16 @@ td{
 
 .navbar {
 	background-color: #555
-	color: white;
+	color: #BAAEAE;
 	display: inline;
   padding: 8px;
   text-decoration: none;
 }
 
 .navbar:hover {
-	background-color: white;
-	color: #555;
+	background-color: #191717;
+  text-decoration: none;
+	color: #BAAEAE;
 }
 
 .todo-list {
