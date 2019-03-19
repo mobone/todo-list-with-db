@@ -8,23 +8,6 @@ h1 {
   text-align: center;
   margin-top: 20px;
 }
-
-.container {
-  display: flex;
-  margin: auto;
-
-}
-
-.contained {
-  /* background-color: #191717; */
-  padding: 10px;
-  /* background-color: #1E5000; */ -- toggled color
-}
-/* .rowone {
-  justify-content: center;
-  align-content: center;
-} */
-
 table {
   background-color: #191717;
   width: 100%;
@@ -36,6 +19,29 @@ td{
   padding: 10px;
   /* background-color: #191717; */
 }
+.container {
+  display: flex;
+  margin: auto;
+}
+
+.contained {
+  /* background-color: #191717; */
+  padding: 10px;
+  /* background-color: #1E5000; */ -- toggled color
+}
+
+
+/* table {
+  background-color: #191717;
+  width: 100%;
+}
+tr {
+  border-bottom: 2pt solid #BAAEAE;
+}
+td{
+  padding: 10px;
+  /* background-color: #191717; */
+} */
 .userType {
   margin: 10px;
 }
@@ -51,10 +57,8 @@ td{
   margin: 20px;
 }
 .navbar {
-	background-color: #555
+	background-color: #191717;
 	color: #BAAEAE;
-	display: inline;
-  padding: 8px;
   text-decoration: none;
 }
 

@@ -16,12 +16,26 @@
 </head>
 
 <body onload="readItems()">
-  <div class="navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="/">Index</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="/add-users">Users<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/user-page">Task List</a>
+      <!-- <a class="nav-item nav-link" href="#">Pricing</a>
+      <a class="nav-item nav-link disabled" href="#">Disabled</a> -->
+    </div>
+  </div>
+</nav>
+  <!-- <div class="navbar">
     <a class="navbar" href="/"> Index </a>
     <a class="navbar" href="/add-users"> Add Users </a>
-    <!-- "userPage.html"  is the users view of the tasks -->
+    "userPage.html"  is the users view of the tasks
     <a class="navbar" href="/user-page"> Task Portal </a>
-  </div>
+  </div> -->
   <div class="container">
   <div class="row">
 
