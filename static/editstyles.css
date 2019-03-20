@@ -8,21 +8,9 @@ h1 {
   text-align: center;
   margin-top: 20px;
 }
-
-.container {
-  display: grid;
-  display: flex;
-  margin: auto;
-}
-
-.contained {
-  /* background-color: #191717; */
-  padding: 10px;
-  /* background-color: #1E5000; */ -- toggled color
-}
-
 table {
   background-color: #191717;
+  width: 100%;
 }
 tr {
   border-bottom: 2pt solid #BAAEAE;
@@ -31,18 +19,57 @@ td{
   padding: 10px;
   /* background-color: #191717; */
 }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.row{
+  margin-bottom: 5px;
+}
+.contained {
+  /* background-color: #191717; */
+  padding: 10px;
+  /* background-color: #1E5000; */ -- toggled color
+}
 
+
+/* table {
+  background-color: #191717;
+  width: 100%;
+}
+tr {
+  border-bottom: 2pt solid #BAAEAE;
+}
+td{
+  padding: 10px;
+  /* background-color: #191717; */
+} */
+.userType {
+  margin: 10px;
+}
+.submitcontain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  margin: auto;
+
+}
+.submit {
+  margin: 20px;
+}
 .navbar {
-	background-color: #555
-	color: white;
-	display: inline;
-  padding: 8px;
+	background-color: #191717;
+	color: #BAAEAE;
   text-decoration: none;
 }
 
 .navbar:hover {
-	background-color: white;
-	color: #555;
+	background-color: #191717;
+  text-decoration: none;
+	color: #BAAEAE;
 }
 
 .todo-list {
@@ -52,7 +79,11 @@ td{
 .form {
   background-color: #191717;
   padding: 30px;
+  width: 100%;
+  margin-left: 5px;
+
 }
+
  h4 {
    text-align: center;
    padding-bottom: 10px;
