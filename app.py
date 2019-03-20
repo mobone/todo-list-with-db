@@ -1,10 +1,10 @@
 # ./app.py
 
-from flask import Flask, render_template, request, jsonify
+
+from flask import Flask, flash, redirect, render_template, request, session, abort, g, jsonify, url_for
 import json
 import sqlite3
-from flask import g
-
+import os
 # create flask app
 app = Flask(__name__)
 
@@ -25,8 +25,12 @@ def close_connection(exception):
 
 # index route, shows index.html view
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
+
+@app.route('/base_tasks')
+def base_tasks():
+    return render_template('base_tasks.html')
 
 # endpoint for storing todo item
 @app.route('/add-todo', methods = ['POST'])
@@ -52,7 +56,7 @@ def addTodo():
     print(data)
     return jsonify(data)
 
-@app.route('/get_all_tasks/')
+@app.route('/get_all_tasks')
 def get_all_tasks():
     conn = get_db()
     cur = conn.cursor()
@@ -95,14 +99,14 @@ def add_users_page():
     if request.method == 'POST':
         conn = get_db()
         cur = conn.cursor()
-        sql = 'select * from users where firstname=="%s" and lastname=="%s"' % (request.form['firstName'], request.form['lastName'])
+        sql = 'select * from users where username=="%s"' % (request.form['username'])
         cur.execute(sql)
         matched_users = cur.fetchall()
         if len(matched_users):
             print('user already exists')
         else:
-            sql = 'INSERT into users (firstname, lastname, usertype) VALUES (?,?,?)'
-            cur.execute(sql, (request.form['firstName'],request.form['lastName'],request.form['userType']))
+            sql = 'INSERT into users (firstname, lastname, username, password, usertype) VALUES (?,?,?,?,?)'
+            cur.execute(sql, (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType']))
             conn.commit()
             print('user added')
     return render_template('add_users.html')
@@ -119,7 +123,9 @@ def get_all_users():
         user_dict = {
                     'firstname': user[0],
                     'lastname': user[1],
-                    'userType': user[2]
+                    'username': user[2],
+                    'password': user[3],
+                    'userType': user[4]
                     }
         users_list.append(user_dict)
     print('returning users', users_list)
@@ -129,11 +135,42 @@ def get_all_users():
 def remove_user():
     conn = get_db()
     cur = conn.cursor()
-    sql = 'delete from users where firstname == "%s" and lastname == "%s"' % (request.form['firstname'], request.form['lastname'])
+    sql = 'delete from users where username=="%s"' % (request.form['username'])
     cur.execute(sql)
     conn.commit()
     return render_template('add_users.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
 
-# run Flask app in debug mode
-app.run(debug=True)
+    if request.method == 'POST':
+        conn = get_db()
+        cur = conn.cursor()
+        sql = 'select username,password from users where username == "%s"' % request.form['username']
+        cur.execute(sql)
+        user_values = cur.fetchone()
+
+        if user_values is None:
+            error = 'Invalid credentials'
+            return render_template('index.html', error=error)
+        user = {'username': user_values[0],
+                'password': user_values[1]}
+        if request.form['username'] != user['username'] or \
+                request.form['password'] != user['password']:
+            error = 'Invalid credentials'
+        else:
+            session['logged_in'] = True
+            return redirect(url_for('base_tasks'))
+    return render_template('index.html', error=error)
+
+@app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    return home()
+
+if __name__ == "__main__":
+    # run Flask app in debug mode
+    app.secret_key = os.urandom(12)
+    app.run(debug=True)
+    #app.run(debug=True,host='0.0.0.0', port=4000)
