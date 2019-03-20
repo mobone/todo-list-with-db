@@ -5,6 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import json
 import sqlite3
 import os
+from datetime import datetime
 # create flask app
 app = Flask(__name__)
 
@@ -139,6 +140,48 @@ def remove_user():
     cur.execute(sql)
     conn.commit()
     return render_template('add_users.html')
+
+@app.route('/copy-to-today', methods = ['POST'])
+def copy_tasks_to_today():
+    date = datetime.now().strftime("%Y-%m-%d")
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'select * from base_tasks'
+    cur.execute(sql)
+    tasks = cur.fetchall()
+    for task in tasks:
+
+        sql = 'INSERT into todays_tasks ("date","time","task","assignee","overdue","comment","completed") VALUES (?,?,?,?,?,?,?)'
+        cur.execute(sql, (date,task[0],task[1],task[2],task[3],task[4],task[5]))
+    conn.commit()
+
+    return render_template('user_page.html')
+
+@app.route('/user-page')
+def user_page():
+    return render_template('user_page.html')
+
+@app.route('/get-todays-tasks')
+def todays_tasks():
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'select * from todays_tasks where date=="%s"' % (datetime.now().strftime("%Y-%m-%d"))
+
+    cur.execute(sql)
+    all_tasks = cur.fetchall()
+    tasks_list = []
+    for task in all_tasks:
+        task_dict = {
+                    'time': task[1],
+                    'task': task[2],
+                    'assignee': task[3],
+                    'overdue': task[4],
+                    'comment': task[5]
+                    }
+        tasks_list.append(task_dict)
+
+
+    return jsonify(tasks_list)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -54,6 +54,42 @@
       });
   }
 
+  function readTodaysItems() {
+    fetch('/get-todays-tasks')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(itemsList) {
+        displayTodaysItems(itemsList)
+        //displayMyTodaysItems(myitemsList)
+      });
+  }
+
+
+  // adds the items to the innerHTML
+  function displayTodaysItems(itemsList) {
+    for (var i = 0; i < itemsList.length; i++) {
+      //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
+      //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
+        let html = `
+        <tr class="taable" id="row-${itemsList[i]['id']}">
+        <td>${itemsList[i]['time']}</td>
+        <td>${itemsList[i]['task']}</td>
+        <td>${itemsList[i]['assignee']}</td>
+        <td>${itemsList[i]['overdue']}</td>
+        <td>${itemsList[i]['comment']}</td>
+        </tr>
+        `
+      let list = document.querySelector(".everyone-todo-list")
+      console.log('adding item')
+      list.innerHTML += html;
+    }
+  }
+
+  function displayMyTodaysItems(itemsList) {
+
+  }
+
   // adds the items to the innerHTML
   function displayAllItems(itemsList) {
     for (var i = 0; i < itemsList.length; i++) {
