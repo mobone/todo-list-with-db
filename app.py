@@ -152,7 +152,7 @@ def copy_tasks_to_today():
     for task in tasks:
 
         sql = 'INSERT into todays_tasks ("date","time","task","assignee","overdue","comment","completed") VALUES (?,?,?,?,?,?,?)'
-        cur.execute(sql, (date,task[0],task[1],task[2],task[3],task[4],task[5]))
+        cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6]))
     conn.commit()
 
     return render_template('user_page.html')
@@ -171,6 +171,7 @@ def todays_tasks():
     all_tasks = cur.fetchall()
     tasks_list = []
     for task in all_tasks:
+        print(task)
         task_dict = {
                     'time': task[1],
                     'task': task[2],

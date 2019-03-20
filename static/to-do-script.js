@@ -72,7 +72,7 @@
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
         let html = `
-        <tr class="taable" id="row-${itemsList[i]['id']}">
+        <tr class="taable">
         <td>${itemsList[i]['time']}</td>
         <td>${itemsList[i]['task']}</td>
         <td>${itemsList[i]['assignee']}</td>
