@@ -81,10 +81,16 @@ td{
   padding: 30px;
   width: 100%;
   margin-left: 5px;
-
 }
 
  h4 {
    text-align: center;
    padding-bottom: 10px;
  }
+
+.firstName {
+  margin-bottom: 5px;
+}
+.lastName{
+  margin-bottom: 5px;
+}
