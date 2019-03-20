@@ -26,6 +26,7 @@
       <a class="nav-item nav-link active" href="/">Index<span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="/add-users">User</a>
       <a class="nav-item nav-link" href="/user-page">Task List</a>
+      <a class="nav-item nav-link" href="/logout"> Logout </a>
       <!-- <a class="nav-item nav-link" href="#">Pricing</a>
       <a class="nav-item nav-link disabled" href="#">Disabled</a> -->
     </div>
@@ -49,7 +50,9 @@
       <form action="/add-users" method="post">
         <h4> Add A User </h4>
         <input class="firstName" name="firstName" placeholder="First Name" autofocus="">
-        <input class="lastName" name="lastName" placeholder="Last Name" autofocus=""> <br> <br>
+        <input class="lastName" name="lastName" placeholder="Last Name" autofocus=""> <br>
+        <input class="username" name="username" placeholder="Username" autofocus="">
+        <input class="password" type="password" name="password" placeholder="Password" autofocus=""> <br> <br>
         <input class="userType" type="radio" placeholder="Admin User" value="admin" name="userType"> Admin User
         <input class="userType" type="radio" placeholder="Standard User" value="standard" name="userType" checked> Standard User <br>
         <button class="btn btn-light submit" type="submit"> Submit </button>

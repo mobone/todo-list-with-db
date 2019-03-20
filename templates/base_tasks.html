@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <!-- ./templates/index.html -->
 <html>
 <head>
@@ -16,7 +15,7 @@
 </head>
 
 <body onload="readItems()">
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark ">
   <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -32,34 +31,32 @@
     </div>
   </div>
 </nav>
-  <!-- <div class="navbar">
-    <a class="navbar" href="/"> Index </a>
-    <a class="navbar" href="/add-users"> Add Users </a>
-    "userPage.html"  is the users view of the tasks
-    <a class="navbar" href="/user-page"> Task Portal </a>
-  </div> -->
   <div class="container">
   <div class="row">
 
     <div class="w-100">
-      <h1>Login</h1>
+      <h1>Tasks</h1>
     </div>
-
-
-      {% if error %}
-      <div class="row w-100">
-        <p class=error><strong>Error:</strong> {{ error }}</p>
-      </div>
-      {% endif %}
-      <div class="row w-100">
-      <p>
-        <form action="/login" method="post">
-        <input name="username" class="username" placeholder="username" autofocus="">
-        <input type="password" name="password" class="password" placeholder="password" autofocus="">
-        <button type="submit"> Login </button>
+    <p>
+    <div class="container">
+      <div class="row">
+        <form>
+          <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
+          <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
+          <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)" >
+          <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
+          <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
+          <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)" >
         </form>
-      </p>
+      </div>
     </div>
+    </p>
+
+
+
+
+      <table class="todo-list" style="width: 100%"></table>
+
 
     <footer class="footer"></footer>
   </div>
