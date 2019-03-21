@@ -148,13 +148,14 @@
           <td>${data['assignee']}</td>
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
-          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}')">Unassign</button>
+          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}'), removeAssigneeFromRow('${data['id']}, ${data['assignee']}')">Unassign</button>
           <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}')">Complete</button></td>
           </tr>
           `;
       let list = document.querySelector(".me-todo-list")
       list.innerHTML += html;
       addAssigneeToRow(data['id'], data['assignee'])
+
 
     });
 
@@ -245,6 +246,13 @@
 
     let item = document.querySelector(`#assignee-${id}`);
       item.innerHTML = assignee
+  }
+
+  function removeAssigneeFromRow(id, assignee) {
+    console.log('remove assignee from both columns', id, assignee)
+    
+    let item = document.querySelector(`#assignee-${id}`);
+      item.innerHTML = ""
   }
 
   function completeItem(id) {
