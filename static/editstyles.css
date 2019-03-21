@@ -71,6 +71,13 @@ td{
   width: 100%;
   margin-left: 5px;
 }
+.test {
+  width: 50%;
+  margin-left: 25%;
+}
+
+
+
 
  h4 {
    text-align: center;
@@ -83,3 +90,6 @@ td{
 .lastName{
   margin-bottom: 5px;
 }
+/* .col-lg {
+  width: 100%;
+} */
