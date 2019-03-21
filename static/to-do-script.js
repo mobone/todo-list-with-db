@@ -234,16 +234,19 @@
   function color_completed_item(id) {
     let item = document.querySelector(`#row-${id}`);
       item.classList.add('completed')
-    let myItem = document.querySelector(`#my-row-${id}`);
-      myItem.classList.add('completed')
   }
+
   function completeItem(id) {
     console.log('i want to be completed')
     fetch(`/complete-item/${id}`)
     .then(function(response) {
       return response.json();
     })
-    .then(color_completed_item(id))
+    .then(function(data) {
+      color_completed_item(id)
+    let myItem = document.querySelector(`#my-row-${id}`);
+      myItem.classList.add('completed')
+    })
   }
 
 
