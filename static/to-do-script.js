@@ -101,7 +101,7 @@
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
       <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
-      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}')">Complete</button></td>
+      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}'">Complete</button></td>
       </tr>
       `
       let list = document.querySelector(".me-todo-list")
@@ -130,7 +130,7 @@
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
           <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}')">Unassign</button>
-          <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}')">Complete</button></td>
+          <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}')">Complete</button></td>
           </tr>
           `;
       let list = document.querySelector(".me-todo-list")
