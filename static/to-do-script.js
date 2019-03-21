@@ -57,27 +57,32 @@
   function readTodaysItems() {
     fetch('/get-todays-tasks')
       .then(function(response) {
+
         return response.json();
       })
-      .then(function(itemsList) {
-        displayTodaysItems(itemsList)
-        //displayMyTodaysItems(myitemsList)
+      .then(
+        function(items_dict) {
+
+          displayTodaysTasks(items_dict['todays_tasks'])
+
+          displayMyTasks(items_dict['my_tasks'])
       });
   }
 
 
   // adds the items to the innerHTML
-  function displayTodaysItems(itemsList) {
+  function displayTodaysTasks(itemsList) {
     for (var i = 0; i < itemsList.length; i++) {
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
         let html = `
-        <tr class="taable">
+        <tr>
         <td>${itemsList[i]['time']}</td>
         <td>${itemsList[i]['task']}</td>
         <td>${itemsList[i]['assignee']}</td>
         <td>${itemsList[i]['overdue']}</td>
         <td>${itemsList[i]['comment']}</td>
+        <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
         </tr>
         `
       let list = document.querySelector(".everyone-todo-list")
@@ -86,9 +91,54 @@
     }
   }
 
-  function displayMyTodaysItems(itemsList) {
+  function displayMyTasks(itemsList) {
+    for (var i=0; i < itemsList.length; i++) {
+      let html = `
+      <tr>
+      <td>${itemsList[i]['time']}</td>
+      <td>${itemsList[i]['task']}</td>
+      <td>${itemsList[i]['assignee']}</td>
+      <td>${itemsList[i]['overdue']}</td>
+      <td>${itemsList[i]['comment']}</td>
+      <td><button class='btn btn-outline-danger btn-sm unassign-to-me'>Unassign</button>
+      <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
+      </tr>
+      `
+      let list = document.querySelector(".me-todo-list")
+      console.log('adding item to my todo list')
+      list.innerHTML += html;
+    }
 
   }
+
+  function assignToMe(item_id) {
+
+    fetch('/assign-item', {
+      method: 'post',
+      body: JSON.stringify({
+        item_id: item_id
+      })
+    }).then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      console.log(JSON.stringify(data));
+      let html = `
+          <tr>
+          <td>${data['time']}</td>
+          <td>${data['task']}</td>
+          <td>${data['assignee']}</td>
+          <td>${data['overdue']}</td>
+          <td>${data['comment']}</td>
+          <td><button class='btn btn-outline-danger btn-sm unassign-to-me'>Unassign</button>
+          <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
+          </tr>
+          `;
+      let list = document.querySelector(".me-todo-list")
+      list.innerHTML += html;
+    });
+
+  }
+
 
   // adds the items to the innerHTML
   function displayAllItems(itemsList) {

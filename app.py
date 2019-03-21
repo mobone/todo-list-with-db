@@ -150,7 +150,6 @@ def copy_tasks_to_today():
     cur.execute(sql)
     tasks = cur.fetchall()
     for task in tasks:
-
         sql = 'INSERT into todays_tasks ("date","time","task","assignee","overdue","comment","completed") VALUES (?,?,?,?,?,?,?)'
         cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6]))
     conn.commit()
@@ -166,23 +165,67 @@ def todays_tasks():
     conn = get_db()
     cur = conn.cursor()
     sql = 'select * from todays_tasks where date=="%s"' % (datetime.now().strftime("%Y-%m-%d"))
-
     cur.execute(sql)
-    all_tasks = cur.fetchall()
-    tasks_list = []
-    for task in all_tasks:
-        print(task)
+    all_tasks_db = cur.fetchall()
+    all_tasks_dict = {}
+    todays_tasks_list = []
+    for task in all_tasks_db:
         task_dict = {
-                    'time': task[1],
-                    'task': task[2],
-                    'assignee': task[3],
-                    'overdue': task[4],
-                    'comment': task[5]
+                    'id': task[0],
+                    'date': task[1],
+                    'time': task[2],
+                    'task': task[3],
+                    'assignee': task[4],
+                    'overdue': task[5],
+                    'comment': task[6]
                     }
-        tasks_list.append(task_dict)
+        todays_tasks_list.append(task_dict)
+    print(session)
+    print(dir(session))
+    sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), session['username'])
+    cur.execute(sql)
+    my_tasks_db = cur.fetchall()
+    my_tasks_list = []
+    for task in my_tasks_db:
+        task_dict = {
+                    'id': task[0],
+                    'date': task[1],
+                    'time': task[2],
+                    'task': task[3],
+                    'assignee': task[4],
+                    'overdue': task[5],
+                    'comment': task[6]
+                    }
+        my_tasks_list.append(task_dict)
 
+    all_tasks_dict['todays_tasks'] = todays_tasks_list
+    all_tasks_dict['my_tasks'] = my_tasks_list
+    print(all_tasks_dict)
+    return jsonify(all_tasks_dict)
 
-    return jsonify(tasks_list)
+@app.route('/assign-item', methods=['POST'])
+def assign_item():
+    data = json.loads(request.data)
+    print(data)
+    item_id = data['item_id']
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (session['username'], item_id)
+    cur.execute(sql)
+    conn.commit()
+    sql = 'select * from todays_tasks where id=="%s"' % (item_id)
+    cur.execute(sql)
+    row = cur.fetchone()
+    task_dict = {
+                'id': row[0],
+                'date': row[1],
+                'time': row[2],
+                'task': row[3],
+                'assignee': row[4],
+                'overdue': row[5],
+                'comment': row[6]
+                }
+    return jsonify(task_dict)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -191,7 +234,7 @@ def login():
     if request.method == 'POST':
         conn = get_db()
         cur = conn.cursor()
-        sql = 'select username,password from users where username == "%s"' % request.form['username']
+        sql = 'select username,password,firstname,lastname from users where username == "%s"' % request.form['username']
         cur.execute(sql)
         user_values = cur.fetchone()
 
@@ -199,12 +242,16 @@ def login():
             error = 'Invalid credentials'
             return render_template('index.html', error=error)
         user = {'username': user_values[0],
-                'password': user_values[1]}
+                'password': user_values[1],
+                'firstname': user_values[2],
+                'lastname': user_values[3]}
         if request.form['username'] != user['username'] or \
                 request.form['password'] != user['password']:
             error = 'Invalid credentials'
         else:
             session['logged_in'] = True
+            session['name'] = user['firstname'] + ' ' + user['lastname']
+            session['username'] = user['username']
             return redirect(url_for('base_tasks'))
     return render_template('index.html', error=error)
 
