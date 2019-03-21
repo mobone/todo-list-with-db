@@ -55,6 +55,7 @@
   }
 
   function readTodaysItems() {
+    create_socket()
     fetch('/get-todays-tasks')
       .then(function(response) {
 
@@ -203,6 +204,20 @@
         item.parentNode.appendChild(item);
     })
   }
+  function create_socket() {
+    console.log('trying to connect')
+    var socket = io.connect('http://localhost:5000');
+
+    socket.on('connect', function() {
+        console.log("I'm connected")
+        socket.emit('my event', {data: 'I\'m connected!'});
+    });
+    socket.on('completed', function(data) {
+      console.log("Got completed message", data)
+      color_completed_item(data['id'])
+
+    })
+  }
   //
   function unassignItem(id) {
 
@@ -216,18 +231,19 @@
     })
   }
 
+  function color_completed_item(id) {
+    let item = document.querySelector(`#row-${id}`);
+      item.classList.add('completed')
+    let myItem = document.querySelector(`#my-row-${id}`);
+      myItem.classList.add('completed')
+  }
   function completeItem(id) {
     console.log('i want to be completed')
     fetch(`/complete-item/${id}`)
     .then(function(response) {
       return response.json();
     })
-    .then(function(data) {
-      let item = document.querySelector(`#row-${id}`);
-        item.classList.add('completed')
-      let myItem = document.querySelector(`#my-row-${id}`);
-        myItem.classList.add('completed')
-    })
+    .then(color_completed_item(id))
   }
 
 
