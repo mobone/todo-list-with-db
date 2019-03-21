@@ -54,7 +54,7 @@ def addTodo():
     id = cur.execute(sql)
     data['id'] = id.fetchone()[0]
 
-    print(data)
+
     return jsonify(data)
 
 @app.route('/get_all_tasks')
@@ -129,7 +129,7 @@ def get_all_users():
                     'userType': user[4]
                     }
         users_list.append(user_dict)
-    print('returning users', users_list)
+
     return jsonify(users_list)
 
 @app.route('/remove-user', methods = ['POST'])
@@ -180,8 +180,7 @@ def todays_tasks():
                     'comment': task[6]
                     }
         todays_tasks_list.append(task_dict)
-    print(session)
-    print(dir(session))
+
     sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), session['username'])
     cur.execute(sql)
     my_tasks_db = cur.fetchall()
@@ -200,13 +199,13 @@ def todays_tasks():
 
     all_tasks_dict['todays_tasks'] = todays_tasks_list
     all_tasks_dict['my_tasks'] = my_tasks_list
-    print(all_tasks_dict)
+
     return jsonify(all_tasks_dict)
 
 @app.route('/assign-item', methods=['POST'])
 def assign_item():
     data = json.loads(request.data)
-    print(data)
+
     item_id = data['item_id']
     conn = get_db()
     cur = conn.cursor()
@@ -226,6 +225,17 @@ def assign_item():
                 'comment': row[6]
                 }
     return jsonify(task_dict)
+
+@app.route('/unassign-item/<item_id>')
+def unassign_item(item_id):
+    print('unassigning', item_id)
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'update todays_tasks set assignee= "%s" where id == "%s"' % (None,item_id)
+    cur.execute(sql)
+    conn.commit()
+    data = {'id': item_id}
+    return jsonify(item_id)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

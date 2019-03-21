@@ -94,7 +94,7 @@
   function displayMyTasks(itemsList) {
     for (var i=0; i < itemsList.length; i++) {
       let html = `
-      <tr>
+      <tr id="row-${itemsList[i]['id']}">
       <td>${itemsList[i]['time']}</td>
       <td>${itemsList[i]['task']}</td>
       <td>${itemsList[i]['assignee']}</td>
@@ -123,13 +123,13 @@
     }).then(function(data) {
       console.log(JSON.stringify(data));
       let html = `
-          <tr>
+          <tr id="row-${data['id']}">
           <td>${data['time']}</td>
           <td>${data['task']}</td>
           <td>${data['assignee']}</td>
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
-          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
+          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}')">Unassign</button>
           <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
           </tr>
           `;
@@ -189,12 +189,14 @@
   }
   //
   function unassignItem(id) {
+
     fetch(`/unassign-item/${id}`)
     .then(function(response) {
       return response.json();
     })
     .then(function(data) {
-      let item = document.querySelector(`#row-${data.id}`);
+      console.log('trying to remove row', id)
+      let item = document.querySelector(`#row-${id}`);
         item.parentNode.removeChild(item);
     })
   }
