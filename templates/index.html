@@ -3,7 +3,7 @@
 <body>
 {% endblock %}
 {% block content %}
-  <div class="row">
+  <div class="container-fluid">
 
     <div class="w-100">
       <h1>Login</h1>
@@ -15,14 +15,17 @@
         <p class=error><strong>Error:</strong> {{ error }}</p>
       </div>
       {% endif %}
-      <div class="row w-100">
-      <p>
-        <form action="/login" method="post">
-        <input name="username" class="username" placeholder="username" autofocus="">
-        <input type="password" name="password" class="password" placeholder="password" autofocus="">
-        <button type="submit"> Login </button>
-        </form>
-      </p>
+      <!-- <div class="row"> -->
+      <div class="container">
+        <div class="index-div">
+
+          <form class="index-test" action="/login" method="post">
+            <input name="username" class="username" placeholder="username" autofocus="">
+            <input type="password" name="password" class="password" placeholder="password" autofocus="">
+            <button type="submit"> Login </button>
+          </form>
+        </div>
+
     </div>
   </div>
 {% endblock %}
