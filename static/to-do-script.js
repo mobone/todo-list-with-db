@@ -87,12 +87,14 @@
       <td>${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
-      <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
+      <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']}), addAssigneeToRow(${itemsList[i]['id']})" >Assign</button></td>
       </tr>
       `
       let list = document.querySelector(".everyone-todo-list")
       console.log('adding item')
       list.innerHTML += html;
+
+
     }
   }
 
@@ -152,6 +154,7 @@
           `;
       let list = document.querySelector(".me-todo-list")
       list.innerHTML += html;
+
     });
 
   }
@@ -236,6 +239,12 @@
       item.classList.add('completed')
   }
 
+  function addAssigneeToRow(id) {
+    console.log('add assignee to both columns')
+    let item = document.querySelector(`#td-${id}`); // what the fuck what the fuck what the fuck
+      item.parentNode.appendChild(item)
+  }
+
   function completeItem(id) {
     console.log('i want to be completed')
     fetch(`/complete-item/${id}`)
@@ -248,6 +257,18 @@
       myItem.classList.add('completed')
     })
   }
+
+// function addAssignee(id) {
+//   console.log('I was assigned to both columns')
+//   fetch(`/complete-item/${id}`)
+//   .then(function(response) {
+//     return response.json();
+//   })
+//   .then(function(data) {
+//     color_completed_item(id)
+//   let myItem = document.querySelector(`#my-row-${id}`);
+//     myItem.classList.add('completed')
+//   })
 
 
 
