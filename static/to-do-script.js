@@ -84,10 +84,10 @@
       <tr id="row-${itemsList[i]['id']}" ${completed_class}>
       <td>${itemsList[i]['time']}</td>
       <td>${itemsList[i]['task']}</td>
-      <td>${itemsList[i]['assignee']}</td>
+      <td id="assignee-${itemsList[i]['id']}">${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
-      <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']}), addAssigneeToRow(${itemsList[i]['id']})" >Assign</button></td>
+      <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
       </tr>
       `
       let list = document.querySelector(".everyone-todo-list")
@@ -154,6 +154,7 @@
           `;
       let list = document.querySelector(".me-todo-list")
       list.innerHTML += html;
+      addAssigneeToRow(data['id'], data['assignee'])
 
     });
 
@@ -239,10 +240,11 @@
       item.classList.add('completed')
   }
 
-  function addAssigneeToRow(id) {
-    console.log('add assignee to both columns')
-    let item = document.querySelector(`#td-${id}`); // what the fuck what the fuck what the fuck
-      item.parentNode.appendChild(item)
+  function addAssigneeToRow(id, assignee) {
+    console.log('add assignee to both columns', id, assignee)
+
+    let item = document.querySelector(`#assignee-${id}`);
+      item.innerHTML = assignee
   }
 
   function completeItem(id) {
