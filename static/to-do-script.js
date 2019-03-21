@@ -148,14 +148,13 @@
           <td>${data['assignee']}</td>
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
-          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}'), removeAssigneeFromRow('${data['id']}, ${data['assignee']}')">Unassign</button>
+          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}'), removeAssigneeFromRow('${data['id']}')">Unassign</button>
           <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}')">Complete</button></td>
           </tr>
           `;
       let list = document.querySelector(".me-todo-list")
       list.innerHTML += html;
       addAssigneeToRow(data['id'], data['assignee'])
-
 
     });
 
@@ -209,6 +208,7 @@
         item.parentNode.appendChild(item);
     })
   }
+
   function create_socket() {
     console.log('trying to connect')
     var socket = io.connect('http://localhost:5000');
@@ -220,6 +220,16 @@
     socket.on('completed', function(data) {
       console.log("Got completed message", data)
       color_completed_item(data['id'])
+
+    })
+    socket.on('assign', function(data) {
+      console.log("Got assign message", data)
+      addAssigneeToRow(data['id'], data['assignee'])
+
+    })
+    socket.on('unassign', function(data) {
+      console.log("Got unassign message", data)
+      removeAssigneeFromRow(data['id'])
 
     })
   }
@@ -241,18 +251,16 @@
       item.classList.add('completed')
   }
 
+  function removeAssigneeFromRow(id) {
+    let item = document.querySelector(`#assignee-${id}`);
+      item.innerHTML = ""
+  }
+
   function addAssigneeToRow(id, assignee) {
     console.log('add assignee to both columns', id, assignee)
 
     let item = document.querySelector(`#assignee-${id}`);
       item.innerHTML = assignee
-  }
-
-  function removeAssigneeFromRow(id, assignee) {
-    console.log('remove assignee from both columns', id, assignee)
-    
-    let item = document.querySelector(`#assignee-${id}`);
-      item.innerHTML = ""
   }
 
   function completeItem(id) {

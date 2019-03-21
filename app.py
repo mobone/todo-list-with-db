@@ -231,6 +231,7 @@ def assign_item():
                 'comment': row[6],
                 'completed': row[7]
                 }
+    socketio.emit('assign', {'id': item_id, 'assignee': task_dict['assignee']})
     return jsonify(task_dict)
 
 @app.route('/unassign-item/<item_id>')
@@ -238,10 +239,11 @@ def unassign_item(item_id):
     print('unassigning', item_id)
     conn = get_db()
     cur = conn.cursor()
-    sql = 'update todays_tasks set assignee= "%s" where id == "%s"' % (None,item_id)
+    sql = 'update todays_tasks set assignee= "%s" where id == "%s"' % ("",item_id)
     cur.execute(sql)
     conn.commit()
     data = {'id': item_id}
+    socketio.emit('unassign', {'id': item_id})
     return jsonify(data)
 
 
