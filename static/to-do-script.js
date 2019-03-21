@@ -121,6 +121,8 @@
 
   }
 
+
+
   function assignToMe(item_id) {
 
     fetch('/assign-item', {
@@ -209,7 +211,6 @@
       return response.json();
     })
     .then(function(data) {
-      console.log('trying to remove row', id)
       let item = document.querySelector(`#my-row-${id}`);
         item.parentNode.removeChild(item);
     })
@@ -222,7 +223,6 @@
       return response.json();
     })
     .then(function(data) {
-      console.log('trying to complete row', id)
       let item = document.querySelector(`#row-${id}`);
         item.classList.add('completed')
       let myItem = document.querySelector(`#my-row-${id}`);

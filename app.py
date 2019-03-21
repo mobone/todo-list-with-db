@@ -6,8 +6,12 @@ import json
 import sqlite3
 import os
 from datetime import datetime
+from flask_socketio import SocketIO
+
 # create flask app
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
 
 # database connection
 DATABASE = './database.db'
@@ -240,7 +244,9 @@ def unassign_item(item_id):
     data = {'id': item_id}
     return jsonify(data)
 
+
 @app.route('/complete-item/<item_id>')
+@socketio.on('completed')
 def complete_item(item_id):
     print("completing", item_id)
     conn = get_db()
@@ -249,6 +255,7 @@ def complete_item(item_id):
     cur.execute(sql)
     conn.commit()
     data = {'id': item_id}
+    socketio.emit('completed', {'id': item_id})
     return jsonify(data)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -286,6 +293,8 @@ def logout():
 
 if __name__ == "__main__":
     # run Flask app in debug mode
-    app.secret_key = os.urandom(12)
-    app.run(debug=True)
+    #app.secret_key = os.urandom(12)
+    #app.run(debug=True)
+    socketio.run(app, debug=True)
+
     #app.run(debug=True,host='0.0.0.0', port=4000)
