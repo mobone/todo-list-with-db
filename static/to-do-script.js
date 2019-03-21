@@ -101,7 +101,7 @@
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
       <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
-      <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
+      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}')">Complete</button></td>
       </tr>
       `
       let list = document.querySelector(".me-todo-list")
@@ -130,7 +130,7 @@
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
           <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}')">Unassign</button>
-          <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
+          <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}')">Complete</button></td>
           </tr>
           `;
       let list = document.querySelector(".me-todo-list")
@@ -198,6 +198,19 @@
       console.log('trying to remove row', id)
       let item = document.querySelector(`#row-${id}`);
         item.parentNode.removeChild(item);
+    })
+  }
+
+  function completeItem(id) {
+    console.log('i want to be completed')
+    fetch(`/complete-item/${id}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      console.log('trying to complete row', id)
+      let item = document.querySelector(`#row-${id}`);
+        item.classList.add('completed')
     })
   }
 

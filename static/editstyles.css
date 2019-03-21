@@ -29,10 +29,8 @@ td{
 .row{
   margin-bottom: 5px;
 }
-.contained {
-  /* background-color: #191717; */
-  padding: 10px;
-  /* background-color: #1E5000; */ -- toggled color
+.completed {
+  background-color: #1E5000; */ -- toggled color
 }
 
 .userType {
