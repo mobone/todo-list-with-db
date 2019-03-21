@@ -100,7 +100,7 @@
       <td>${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
-      <td><button class='btn btn-outline-danger btn-sm unassign-to-me'>Unassign</button>
+      <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
       <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
       </tr>
       `
@@ -129,7 +129,7 @@
           <td>${data['assignee']}</td>
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
-          <td><button class='btn btn-outline-danger btn-sm unassign-to-me'>Unassign</button>
+          <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
           <button class='btn btn-outline-success btn-sm complete'>Complete</button></td>
           </tr>
           `;
@@ -176,7 +176,7 @@
         item.parentNode.removeChild(item);
     })
   }
-
+//
   function editItem(id) {
     fetch(`/edit-todo/${id}`)
     .then(function(response) {
@@ -185,6 +185,17 @@
     .then(function(data) {
       let item = document.querySelector(`#row-${data.id}`);
         item.parentNode.appendChild(item);
+    })
+  }
+  //
+  function unassignItem(id) {
+    fetch(`/unassign-item/${id}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      let item = document.querySelector(`#row-${data.id}`);
+        item.parentNode.removeChild(item);
     })
   }
 
