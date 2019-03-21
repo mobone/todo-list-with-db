@@ -177,7 +177,8 @@ def todays_tasks():
                     'task': task[3],
                     'assignee': task[4],
                     'overdue': task[5],
-                    'comment': task[6]
+                    'comment': task[6],
+                    'completed': task[7]
                     }
         todays_tasks_list.append(task_dict)
 
@@ -193,7 +194,8 @@ def todays_tasks():
                     'task': task[3],
                     'assignee': task[4],
                     'overdue': task[5],
-                    'comment': task[6]
+                    'comment': task[6],
+                    'completed': task[7]
                     }
         my_tasks_list.append(task_dict)
 
@@ -222,7 +224,8 @@ def assign_item():
                 'task': row[3],
                 'assignee': row[4],
                 'overdue': row[5],
-                'comment': row[6]
+                'comment': row[6],
+                'completed': row[7]
                 }
     return jsonify(task_dict)
 
@@ -235,7 +238,18 @@ def unassign_item(item_id):
     cur.execute(sql)
     conn.commit()
     data = {'id': item_id}
-    return jsonify(item_id)
+    return jsonify(data)
+
+@app.route('/complete-item/<item_id>')
+def complete_item(item_id):
+    print("completing", item_id)
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'update todays_tasks set completed = "%s" where id == "%s"' % (1,item_id)
+    cur.execute(sql)
+    conn.commit()
+    data = {'id': item_id}
+    return jsonify(data)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

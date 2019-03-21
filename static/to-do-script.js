@@ -75,16 +75,20 @@
     for (var i = 0; i < itemsList.length; i++) {
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
-        let html = `
-        <tr>
-        <td>${itemsList[i]['time']}</td>
-        <td>${itemsList[i]['task']}</td>
-        <td>${itemsList[i]['assignee']}</td>
-        <td>${itemsList[i]['overdue']}</td>
-        <td>${itemsList[i]['comment']}</td>
-        <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
-        </tr>
-        `
+      let completed_class = ''
+      if (itemsList[i]['completed'] == 1) {
+        completed_class = 'class="completed"'
+      }
+      let html = `
+      <tr id="row-${itemsList[i]['id']}" ${completed_class}>
+      <td>${itemsList[i]['time']}</td>
+      <td>${itemsList[i]['task']}</td>
+      <td>${itemsList[i]['assignee']}</td>
+      <td>${itemsList[i]['overdue']}</td>
+      <td>${itemsList[i]['comment']}</td>
+      <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
+      </tr>
+      `
       let list = document.querySelector(".everyone-todo-list")
       console.log('adding item')
       list.innerHTML += html;
@@ -93,15 +97,21 @@
 
   function displayMyTasks(itemsList) {
     for (var i=0; i < itemsList.length; i++) {
+
+      let completed_class = ''
+      if (itemsList[i]['completed'] == 1) {
+        completed_class = 'class="completed"'
+      }
+
       let html = `
-      <tr id="row-${itemsList[i]['id']}">
+      <tr id="my-row-${itemsList[i]['id']}" ${completed_class}>
       <td>${itemsList[i]['time']}</td>
       <td>${itemsList[i]['task']}</td>
       <td>${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
       <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
-      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}'">Complete</button></td>
+      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}')">Complete</button></td>
       </tr>
       `
       let list = document.querySelector(".me-todo-list")
@@ -122,8 +132,12 @@
       return response.json();
     }).then(function(data) {
       console.log(JSON.stringify(data));
+      let completed_class = ''
+      if (data['completed'] == 1) {
+        completed_class = 'class="completed"'
+      }
       let html = `
-          <tr id="row-${data['id']}">
+          <tr id="my-row-${data['id']}" ${completed_class}>
           <td>${data['time']}</td>
           <td>${data['task']}</td>
           <td>${data['assignee']}</td>
@@ -196,7 +210,7 @@
     })
     .then(function(data) {
       console.log('trying to remove row', id)
-      let item = document.querySelector(`#row-${id}`);
+      let item = document.querySelector(`#my-row-${id}`);
         item.parentNode.removeChild(item);
     })
   }
@@ -211,6 +225,8 @@
       console.log('trying to complete row', id)
       let item = document.querySelector(`#row-${id}`);
         item.classList.add('completed')
+      let myItem = document.querySelector(`#my-row-${id}`);
+        myItem.classList.add('completed')
     })
   }
 
