@@ -61,7 +61,9 @@ td{
   text-decoration: none;
 	color: #BAAEAE;
 }
+/* .form-color {
 
+} */
 .todo-list {
   width: 100%;
 }
@@ -70,7 +72,8 @@ td{
   background-color: #191717;
   padding: 30px;
   width: 100%;
-  margin-left: 5px;
+  margin: 10px 10px 10px 10px;
+  box-shadow: 4px 4px 3px black, -1px -1px 5px black;
 }
 
  h4 {
@@ -84,3 +87,6 @@ td{
 .lastName{
   margin-bottom: 5px;
 }
+/* .shadow {
+  box-shadow: 10px 10px 5px black;
+} */
