@@ -170,15 +170,10 @@
         <tr class="taable" id="row-${itemsList[i]['id']}">
         <td>${itemsList[i]['time']}</td>
         <td>${itemsList[i]['task']}</td>
-        <td>${itemsList[i]['assignee']}</td>
         <td>${itemsList[i]['overdue']}</td>
         <td>${itemsList[i]['comment']}</td>
-        <td>${itemsList[i]['day']}</td>
-
-          <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
-          <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td>
-
-
+        <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
+        <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td>
         </tr>
         `
       let list = document.querySelector(".todo-list")
