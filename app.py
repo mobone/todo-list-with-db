@@ -7,7 +7,7 @@ import sqlite3
 import os
 from datetime import datetime
 from flask_socketio import SocketIO
-
+from datetime import datetime
 # create flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -179,11 +179,27 @@ def copy_tasks_to_today():
         for i in range(len(task)):
             if task[i] is None:
                 task[i] = ""
-        sql = 'INSERT into todays_tasks ("date","time","shift","task","completed","assignee","overdue","comments") VALUES (?,?,?,?,?,?,?,?)'
-        cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6],""))
+        day_comment = task[7]
+
+        todays_day = datetime.today().strftime('%A')
+
+        if day_comment == '':
+            add_row_to_today(date, task)
+        elif todays_day.lower() in day_comment.lower() and 'Not '.lower()+todays_day.lower() not in day_comment.lower():
+            add_row_to_today(date, task)
+
+
+
     conn.commit()
 
     return render_template('user_page.html')
+
+def add_row_to_today(date,task):
+    conn = get_db()
+    cur = conn.cursor()
+    sql = 'INSERT into todays_tasks ("date","time","shift","task","completed","assignee","overdue","comments") VALUES (?,?,?,?,?,?,?,?)'
+    cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6],""))
+    conn.commit()
 
 @app.route('/user-page')
 def user_page():
