@@ -296,6 +296,19 @@
       });
   }
 
+  function editUser(firstname, lastname, username, id) {
+    let firstname_field = document.querySelector('.firstName')
+      firstname_field.value = firstname
+    let lastname_field = document.querySelector('.lastName')
+      lastname_field.value = lastname
+    let username_field = document.querySelector('.username')
+      username_field.value = username
+    let userid_field = document.querySelector('.userid')
+      userid_field.value = id
+    let submit_button = document.querySelector('.submit-button')
+      submit_button.innerHTML = 'Edit User'
+    console.log('userid', id)
+  }
 
   function displayAllUsers(itemsList) {
     for (var i = 0; i < itemsList.length; i++) {
@@ -311,7 +324,7 @@
 
 
           <td><form>
-          <button type="button" class="btn btn-outline-warning btn-sm">Edit User</button>
+          <button type="button" class="btn btn-outline-warning btn-sm" onclick="editUser('${itemsList[i]['firstname']}','${itemsList[i]['lastname']}','${itemsList[i]['username']}','${itemsList[i]['id']}')">Edit User</button>
           </form>
           </td>
           <td>

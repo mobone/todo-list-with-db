@@ -116,13 +116,19 @@ def removeTodo(item_id):
 # endpoint for adding a user and rending main page
 @app.route('/add-users', methods = ['GET','POST'])
 def add_users_page():
+    print('got request', request.form)
     if request.method == 'POST':
         conn = get_db()
         cur = conn.cursor()
         sql = 'select * from users where username=="%s"' % (request.form['username'])
         cur.execute(sql)
         matched_users = cur.fetchall()
-        if len(matched_users):
+        if request.form['userid'] != "":
+            print('updating user')
+            sql = 'update users set firstname = "%s", lastname = "%s", username = "%s", password = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType'], request.form['userid'])
+            cur.execute(sql)
+            conn.commit()
+        elif len(matched_users):
             print('user already exists')
         else:
             sql = 'INSERT into users (firstname, lastname, username, password, usertype) VALUES (?,?,?,?,?)'
@@ -145,7 +151,8 @@ def get_all_users():
                     'lastname': user[1],
                     'username': user[2],
                     'password': user[3],
-                    'userType': user[4]
+                    'userType': user[4],
+                    'id': user[5]
                     }
         users_list.append(user_dict)
 
