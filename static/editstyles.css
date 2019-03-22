@@ -58,9 +58,9 @@ td{
   text-decoration: none;
 	color: #BAAEAE;
 }
-.form-color {
-  background-color: #191717;
-}
+/* .form-color {
+
+} */
 .todo-list {
   width: 100%;
 }
@@ -78,6 +78,7 @@ td{
   padding: 30px;
   width: 100%;
   margin-left: 5px;
+  box-shadow: 10px 10px 5px black;
 }
 .test {
   width: 50%;
