@@ -77,8 +77,8 @@ td{
   background-color: #191717;
   padding: 30px;
   width: 100%;
-  margin-left: 5px;
-  box-shadow: 4px 4px 3px black, -1px -1px 5px #BAAEAE;
+  margin: 10px 10px 10px 10px;
+  box-shadow: 4px 4px 3px black, -1px -1px 5px black;
 }
 .test {
   width: 50%;
