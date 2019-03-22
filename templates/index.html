@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
-<body>
+<body class="big">
 {% endblock %}
 {% block content %}
   <div class="container-fluid">
 
-    <div class="w-100">
-      <h1>Login</h1>
-    </div>
+    
 
 
       {% if error %}
@@ -16,15 +14,15 @@
       </div>
       {% endif %}
       <!-- <div class="row"> -->
-      <div class="container">
-        <div class="index-div">
+      <div class="container index-div">
+          <h3 class="index-h3">Login</h3>
 
           <form class="index-test" action="/login" method="post">
             <input name="username" class="username" placeholder="username" autofocus="">
             <input type="password" name="password" class="password" placeholder="password" autofocus="">
-            <button type="submit"> Login </button>
+            <button class="login-button" type="submit"> Login </button>
           </form>
-        </div>
+
 
     </div>
   </div>
