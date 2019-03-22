@@ -108,7 +108,8 @@ td{
 
 }
 .index-h3 {
-margin-top: 10px;
+  margin-top: 10px;
+  color: #BAAEAE;
 }
 .index-test {
   /* justify-content: center; */
@@ -137,7 +138,7 @@ margin-top: 10px;
 .login-button {
   border-radius: 8px;
   text-decoration: none;
-  padding: 15px;
+  padding: 10px;
   border: none;
   width: 50%;
   margin: 20px 0px 0px 67px;
