@@ -19,6 +19,7 @@ td{
   padding: 10px;
   /* background-color: #191717; */
 }
+
 .container {
   display: flex;
   justify-content: center;
@@ -29,8 +30,10 @@ td{
 .row{
   margin-bottom: 5px;
 }
-.completed {
-  background-color: #1E5000; */ -- toggled color
+.contained {
+  /* background-color: #191717; */
+  padding: 10px;
+  /* background-color: #1E5000; */ -- toggled color
 }
 
 .userType {
@@ -58,38 +61,17 @@ td{
   text-decoration: none;
 	color: #BAAEAE;
 }
-.form-color {
-  background-color: #191717;
-}
+
 .todo-list {
   width: 100%;
 }
-.index-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* height: 150px; */
-  width: 100%;
 
-}
 .form {
   background-color: #191717;
   padding: 30px;
   width: 100%;
   margin-left: 5px;
 }
-.test {
-  width: 50%;
-  margin-left: 25%;
-}
-.index-test {
-  margin-top: 10px;
-  border: 10px solid #191717;
-}
-
-
-
 
  h4 {
    text-align: center;
@@ -102,6 +84,3 @@ td{
 .lastName{
   margin-bottom: 5px;
 }
-/* .col-lg {
-  width: 100%;
-} */

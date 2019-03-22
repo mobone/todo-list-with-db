@@ -71,10 +71,11 @@
   }
 
 var shift = "Day"
+var today = new Date();
   // adds the items to the innerHTML
   function displayTodaysTasks(itemsList) {
 
-    var today = new Date();
+
     var time = today.getHours()
 
     if (time >=18 || time < 6) {
@@ -84,6 +85,8 @@ var shift = "Day"
 
     let shift_title = document.querySelector('.shift')
       shift_title.innerHTML = shift + ' Shift'
+
+
 
     for (var i = 0; i < itemsList.length; i++) {
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
@@ -105,16 +108,17 @@ var shift = "Day"
       <td>${itemsList[i]['task']}</td>
       <td id="assignee-${itemsList[i]['id']}">${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
-      <td>${itemsList[i]['comment']}</td>
+
       <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
       </tr>
       `
-      let list = document.querySelector(".everyone-todo-list")
+      let list = document.querySelector(".everyone-todo-list-body")
       console.log('adding item')
       list.innerHTML += html;
 
-
     }
+
+
   }
 
   function displayMyTasks(itemsList) {
@@ -129,14 +133,14 @@ var shift = "Day"
       <tr id="my-row-${itemsList[i]['id']}" ${completed_class}>
       <td>${itemsList[i]['time']}</td>
       <td>${itemsList[i]['task']}</td>
-      <td>${itemsList[i]['assignee']}</td>
+
       <td>${itemsList[i]['overdue']}</td>
-      <td>${itemsList[i]['comment']}</td>
+
       <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
       <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}', '${itemsList[i]['shift']}')">Complete</button></td>
       </tr>
       `
-      let list = document.querySelector(".me-todo-list")
+      let list = document.querySelector(".me-todo-list-body")
       console.log('adding item to my todo list')
       list.innerHTML += html;
     }
@@ -164,14 +168,14 @@ var shift = "Day"
           <tr id="my-row-${data['id']}" ${completed_class}>
           <td>${data['time']}</td>
           <td>${data['task']}</td>
-          <td>${data['assignee']}</td>
+
           <td>${data['overdue']}</td>
-          <td>${data['comment']}</td>
+          
           <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}'), removeAssigneeFromRow('${data['id']}')">Unassign</button>
           <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}', '${data['shift']}')">Complete</button></td>
           </tr>
           `;
-      let list = document.querySelector(".me-todo-list")
+      let list = document.querySelector(".me-todo-list-body")
       list.innerHTML += html;
       addAssigneeToRow(data['id'], data['assignee'])
 

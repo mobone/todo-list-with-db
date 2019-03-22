@@ -14,12 +14,22 @@
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg">
-        <table class="everyone-todo-list" style="width: 100%">
-        </table>
+        <div class="col-lg all-tasks-div">
+          <table class="everyone-todo-list sortable" style="width: 100%">
+            <thead>
+              <tr><th>Date</th><th>Time</th><th>Shift</th><th>Task</th><th>Assignee</th><th>Overdue</th><th> </th></tr>
+              </thead>
+              <tbody class="everyone-todo-list-body">
+                </tbody><tfoot></tfoot></table>
       </div>
       <div class="col-lg">
-        <table class="me-todo-list" style="width: 100%">
+        <table class="me-todo-list sortable" style="width: 100%">
+          <thead>
+            <tr><th>Time</th><th>Task</th><th>Overdue</th><th> </th></tr>
+          </thead>
+          <tbody class="me-todo-list-body">
+          </tbody>
+          <tfoot></tfoot>
         </table>
       </div>
       </div>
