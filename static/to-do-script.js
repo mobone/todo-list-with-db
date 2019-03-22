@@ -176,7 +176,12 @@ var today = new Date();
           </tr>
           `;
       let list = document.querySelector(".me-todo-list-body")
-      list.innerHTML += html;
+      let row_id = "#my-row-"+data['id']
+      let existing_row = document.querySelector(row_id)
+      if (existing_row == null) {
+          list.innerHTML += html;
+      }
+
       addAssigneeToRow(data['id'], data['assignee'])
 
     });
@@ -305,17 +310,6 @@ var today = new Date();
     })
   }
 
-// function addAssignee(id) {
-//   console.log('I was assigned to both columns')
-//   fetch(`/complete-item/${id}`)
-//   .then(function(response) {
-//     return response.json();
-//   })
-//   .then(function(data) {
-//     color_completed_item(id)
-//   let myItem = document.querySelector(`#my-row-${id}`);
-//     myItem.classList.add('completed')
-//   })
 
 
 
