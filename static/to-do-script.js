@@ -307,6 +307,8 @@
       userid_field.value = id
     let submit_button = document.querySelector('.submit-button')
       submit_button.innerHTML = 'Edit User'
+    let user_title = document.querySelector('.user-title')
+      user_title.innerHTML = 'Edit A User'
     console.log('userid', id)
   }
 
