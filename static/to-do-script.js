@@ -170,7 +170,7 @@ var today = new Date();
           <td>${data['task']}</td>
 
           <td>${data['overdue']}</td>
-          
+
           <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}'), removeAssigneeFromRow('${data['id']}')">Unassign</button>
           <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}', '${data['shift']}')">Complete</button></td>
           </tr>
@@ -267,20 +267,15 @@ var today = new Date();
   function color_completed_item(id, items_shift) {
     let item = document.querySelector(`#row-${id}`);
     if (items_shift != shift) {
-      try {
-        item.parentNode.removeChild(item)
-      } catch(err) {
-
-      }
-
-    } else {
+        if (item != null) { item.parentNode.removeChild(item)}
+    }
       try {
         item.classList.add('completed')
       } catch(err) {
-
+        console.log('other err',err)
       }
 
-    }
+
 
   }
 
@@ -304,6 +299,7 @@ var today = new Date();
     })
     .then(function(data) {
       color_completed_item(id, shift)
+      console.log('trying to color my row', id)
     let myItem = document.querySelector(`#my-row-${id}`);
       myItem.classList.add('completed')
     })

@@ -35,6 +35,10 @@ td{
   padding: 10px;
   /* background-color: #1E5000; */ -- toggled color
 }
+.completed {
+  background-color: #1E5000; */ -- toggled color
+}
+
 
 .userType {
   margin: 10px;
