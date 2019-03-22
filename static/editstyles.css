@@ -126,10 +126,12 @@ margin-top: 10px;
   color: #191717;
   padding-left: 5px;
   border: none;
+  outline: none;
 }
 .index-test input:focus {
   background-color: #191717;
   color: #FFF8F6;
+  outline: none;
 }
 
 .login-button {
