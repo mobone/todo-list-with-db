@@ -79,6 +79,11 @@ def get_all_tasks():
             task[1] = task[1].split('.')[0]
         if task[6] is not None and '.' in task[6]:
             task[6] = task[6].split('.')[0]
+
+        for i in range(len(task)):
+            if task[i] is None:
+                task[i] = ""
+
         task_dict = {
                     'id': task[0],
                     'time': task[1],
@@ -171,8 +176,11 @@ def copy_tasks_to_today():
             task[1] = task[1].split('.')[0]
         if task[6] is not None and '.' in task[6]:
             task[6] = task[6].split('.')[0]
+        for i in range(len(task)):
+            if task[i] is None:
+                task[i] = ""
         sql = 'INSERT into todays_tasks ("date","time","shift","task","completed","assignee","overdue","comments") VALUES (?,?,?,?,?,?,?,?)'
-        cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6],task[7]))
+        cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6],""))
     conn.commit()
 
     return render_template('user_page.html')
