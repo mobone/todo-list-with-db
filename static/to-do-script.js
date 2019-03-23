@@ -346,7 +346,7 @@ var today = new Date();
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
         let html = `
-        <tr class="taable" id="row-${itemsList[i]['id']}">
+        <tr id="row-${itemsList[i]['id']}">
         <td>${itemsList[i]['firstname']}</td>
         <td>${itemsList[i]['lastname']}</td>
         <td>${itemsList[i]['username']}</td>

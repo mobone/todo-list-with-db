@@ -90,6 +90,8 @@ td{
 .lastName{
   margin-bottom: 5px;
 }
+
+/* index.html specific */
 .big {
   background-image: url("https://images.unsplash.com/photo-1519847015009-d834259a181b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80");
   background-position: center;
@@ -105,7 +107,6 @@ td{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
 }
 .index-h3 {
   margin-top: 10px;
@@ -148,4 +149,55 @@ td{
 
 .login-button:hover {
   background-color: #15781B;
+}
+
+/* add_users.html specific */
+body.userbackground {
+  background: repeating-linear-gradient(
+    45deg,
+  #191717,
+  #191717 10px,
+  #272323 10px,
+  #272323 30px
+);
+    )
+}
+.usersform {
+  background-color: rgba(25,23,23, .75);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+form.usersbox {
+  justify-content: center;
+  align-content: center;
+
+}
+.usersform input {
+  width: 25%;
+  height: 40px;
+  border-radius: 10px;
+  margin-top: 10px;
+  background-color: #FFF8F6;
+  color: #191717;
+  padding-left: 5px;
+  border: none;
+  outline: none;
+}
+.usersform input:focus {
+  background-color: #272323;
+  color: #FFF8F6;
+  outline: none;
+}
+.adduserbutton {
+  border-radius: 8px;
+  text-decoration: none;
+  padding: 10px;
+  border: none;
+  width: 10%;
+  margin: 20px 0px 0px 67px;
+  background-color: #4CAF50;
+  color: white;
 }

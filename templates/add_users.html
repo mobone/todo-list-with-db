@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block body %}
-<body onload="readUsers()" >
+<body onload="readUsers()" class="userbackground" >
 {% endblock %}
 {% block content %}
   <div class="container-fluid">
     <h1 class="w-100">Users</h1>
 
     <div class="row">
-      <div class="col form">
+      <div class="col form usersform">
         <!-- <div class="form form-color"> -->
           <h4 class='user-title'> Add A User </h4>
-        <form class="test" action="/add-users" method="post">
+        <form class="usersbox" action="/add-users" method="post">
 
           <input class="firstName" name="firstName" placeholder="First Name" autofocus="">
           <input class="lastName" name="lastName" placeholder="Last Name" autofocus=""> <br>
@@ -20,7 +20,7 @@
           <input class="userType" type="radio" placeholder="Admin User" value="admin" name="userType"> Admin User
           <input class="userType" type="radio" placeholder="Standard User" value="standard" name="userType" checked> Standard User <br>
           <input class="userid" name=userid type=hidden value="">
-          <button class="btn btn-light submit submit-button" type="submit"> Add User </button>
+          <button class="btn btn-light submit adduserbutton" type="submit"> Add User </button>
         </form>
         <!-- </div> -->
       </div>
@@ -28,7 +28,7 @@
 
 
 
-      <div class="col form">
+      <div class="col form usersform">
         <h4> User Database </h4>
         <table class="addedUsers">
 
