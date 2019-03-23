@@ -70,19 +70,38 @@
       });
   }
 
-
+var shift = "Day"
   // adds the items to the innerHTML
   function displayTodaysTasks(itemsList) {
+
+    var today = new Date();
+    var time = today.getHours()
+
+    if (time >=18 || time < 6) {
+      shift = "Night";
+      console.log('setting', shift)
+    }
+
+    let shift_title = document.querySelector('.shift')
+      shift_title.innerHTML = shift + ' Shift'
+
     for (var i = 0; i < itemsList.length; i++) {
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
+
+      if (itemsList[i]['shift'] != shift & itemsList[i]["completed"]==1) {
+        continue;
+      }
       let completed_class = ''
       if (itemsList[i]['completed'] == 1) {
         completed_class = 'class="completed"'
       }
+      let date_string = itemsList[i]['date'].split('-')[1] + "-" + itemsList[i]['date'].split('-')[2]
       let html = `
       <tr id="row-${itemsList[i]['id']}" ${completed_class}>
+      <td>${date_string}</td>
       <td>${itemsList[i]['time']}</td>
+      <td>${itemsList[i]['shift']}</td>
       <td>${itemsList[i]['task']}</td>
       <td id="assignee-${itemsList[i]['id']}">${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
@@ -114,7 +133,7 @@
       <td>${itemsList[i]['overdue']}</td>
       <td>${itemsList[i]['comment']}</td>
       <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${itemsList[i]['id']}')">Unassign</button>
-      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}')">Complete</button></td>
+      <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${itemsList[i]['id']}', '${itemsList[i]['shift']}')">Complete</button></td>
       </tr>
       `
       let list = document.querySelector(".me-todo-list")
@@ -149,7 +168,7 @@
           <td>${data['overdue']}</td>
           <td>${data['comment']}</td>
           <td><button class='btn btn-outline-danger btn-sm unassign-to-me' onclick="unassignItem('${data['id']}'), removeAssigneeFromRow('${data['id']}')">Unassign</button>
-          <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}')">Complete</button></td>
+          <button class='btn btn-outline-success btn-sm complete' onclick="completeItem('${data['id']}', '${data['shift']}')">Complete</button></td>
           </tr>
           `;
       let list = document.querySelector(".me-todo-list")
@@ -214,7 +233,7 @@
     });
     socket.on('completed', function(data) {
       console.log("Got completed message", data)
-      color_completed_item(data['id'])
+      color_completed_item(data['id'], data['shift'])
 
     })
     socket.on('assign', function(data) {
@@ -241,9 +260,24 @@
     })
   }
 
-  function color_completed_item(id) {
+  function color_completed_item(id, items_shift) {
     let item = document.querySelector(`#row-${id}`);
-      item.classList.add('completed')
+    if (items_shift != shift) {
+      try {
+        item.parentNode.removeChild(item)
+      } catch(err) {
+
+      }
+
+    } else {
+      try {
+        item.classList.add('completed')
+      } catch(err) {
+
+      }
+
+    }
+
   }
 
   function removeAssigneeFromRow(id) {
@@ -258,14 +292,14 @@
       item.innerHTML = assignee
   }
 
-  function completeItem(id) {
+  function completeItem(id, shift) {
     console.log('i want to be completed')
-    fetch(`/complete-item/${id}`)
+    fetch(`/complete-item/${id}/${shift}`)
     .then(function(response) {
       return response.json();
     })
     .then(function(data) {
-      color_completed_item(id)
+      color_completed_item(id, shift)
     let myItem = document.querySelector(`#my-row-${id}`);
       myItem.classList.add('completed')
     })

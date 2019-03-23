@@ -7,7 +7,7 @@ import sqlite3
 import os
 from datetime import datetime
 from flask_socketio import SocketIO
-from datetime import datetime
+from datetime import datetime, timedelta
 # create flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -218,7 +218,7 @@ def todays_tasks():
     print('here', session['username'])
     conn = get_db()
     cur = conn.cursor()
-    sql = 'select * from todays_tasks where date=="%s"' % (datetime.now().strftime("%Y-%m-%d"))
+    sql = 'select * from todays_tasks where date=="%s" or date=="%s"' % (datetime.now().strftime("%Y-%m-%d"), (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d'))
     cur.execute(sql)
     all_tasks_db = cur.fetchall()
     all_tasks_dict = {}
@@ -304,9 +304,9 @@ def unassign_item(item_id):
     return jsonify(data)
 
 
-@app.route('/complete-item/<item_id>')
+@app.route('/complete-item/<item_id>/<shift>/')
 @socketio.on('completed')
-def complete_item(item_id):
+def complete_item(item_id, shift):
     print("completing", item_id)
     conn = get_db()
     cur = conn.cursor()
@@ -314,7 +314,7 @@ def complete_item(item_id):
     cur.execute(sql)
     conn.commit()
     data = {'id': item_id}
-    socketio.emit('completed', {'id': item_id})
+    socketio.emit('completed', {'id': item_id, 'shift': shift})
     return jsonify(data)
 
 @app.route('/login', methods=['GET', 'POST'])
