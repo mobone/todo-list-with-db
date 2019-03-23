@@ -234,7 +234,8 @@ var today = new Date();
 
   function create_socket() {
     console.log('trying to connect')
-    var socket = io.connect('http://localhost:5000');
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
 
     socket.on('connect', function() {
         console.log("I'm connected")
