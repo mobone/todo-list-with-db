@@ -10,7 +10,7 @@
     <div class="w-100">
       <h1>Base Tasks</h1>
     </div>
-    <div class="container">
+    <div class="container tasksubmitform">
       <form>
       <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
       <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
@@ -18,16 +18,17 @@
       <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
       <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
       <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)" >
+      <button class="btn btn-light submit submitTasks" type="submit"> Copy to todays tasks </button>
       </form>
     </div>
 
 
 
-
-      <table class="todo-list" style="width: 100%"></table>
-      <form action="/copy-to-today" method="post">
+    <div class="container-fluid basetasks">
+      <!-- <form action="/copy-to-today" method="post">
         <button class="btn btn-light submit" type="submit"> Copy to todays tasks </button>
-      </form>
-
+      </form> -->
+      <table class="todo-list addedUsers" style="width: 100%"></table>
+    </div>
   </div>
 {% endblock %}

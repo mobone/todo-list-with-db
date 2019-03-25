@@ -1,8 +1,16 @@
 
 body {
-  background-color: #272323;
+  /* background-color: #272323; */
   font-family: 'Saira Semi Condensed', sans-serif;
   color: #BAAEAE;
+  background: repeating-linear-gradient(
+    45deg,
+  #191717,
+  #191717 20px,
+  #272323 20px,
+  #272323 60px
+);
+    )
 }
 
 h1 {
@@ -21,13 +29,7 @@ td{
   padding: 10px;
   /* background-color: #191717; */
 }
-/* table tr:last-child td:first-child {
-    border-radius: 10px;
-}
 
-table tr:last-child td:last-child {
-    border-radius: 10px;
-} */
 
 .container {
   display: flex;
@@ -53,13 +55,7 @@ table tr:last-child td:last-child {
   margin: 10px;
 }
 /* .submitcontain and .submit are for submit button in index.html */
-.submitcontain {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-self: center;
-  margin: auto;
-}
+
 .submit {
   margin: 20px;
 }
@@ -163,6 +159,47 @@ table tr:last-child td:last-child {
 
 /*  */
 /*  */
+/*  base_tasks.html styling */
+.tasksubmitform {
+  border-radius: 10px;
+  box-shadow: 4px 4px 3px black, -1px -1px 5px black;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-top: 15px;
+  background-color: rgba(25,23,23, .75);
+}
+
+.tasksubmitform input {
+  background-color: #FFF8F6;
+  color: #191717;
+  border: none;
+  outline: none;
+  height: 40px;
+  border-radius: 10px;
+  line-height: normal;
+}
+
+.tasksubmitform input:focus {
+  background-color: #272323;
+  color: #FFF8F6;
+  outline: none;
+}
+
+.submitTasks {
+  border-radius: 8px;
+  text-decoration: none;
+  padding: 10px;
+  border: none;
+  width: 20%;
+  margin: 20px 0px 0px 67px;
+  background-color: #4CAF50;
+  color: white;
+}
+.basetasks {
+  background-color: rgba(25,23,23, .75);
+  border-radius: 10px;
+  box-shadow: 4px 4px 3px black, -1px -1px 5px black;
+}
 /*  */
 /* add_users.html specific */
 body.userbackground {
@@ -181,15 +218,16 @@ body.userbackground {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-form.usersbox {
-
+.usersbox {
+  margin-left: 8px;
 
 }
 .usersform input {
-  width: 25%;
-  height: 40px;
+  line-height: normal;
   border-radius: 10px;
   margin-top: 10px;
   background-color: #FFF8F6;
@@ -197,6 +235,7 @@ form.usersbox {
   padding-left: 5px;
   border: none;
   outline: none;
+  height: 40px;
 
 }
 .usersform input:focus {
@@ -209,10 +248,11 @@ form.usersbox {
   text-decoration: none;
   padding: 10px;
   border: none;
-  width: 10%;
+  width: 30%;
   margin: 20px 0px 0px 67px;
   background-color: #4CAF50;
   color: white;
+  margin-left: 8px;
 }
 .addedUsers {
   background-color: rgba(25,23,23, .25);
