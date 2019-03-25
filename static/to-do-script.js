@@ -111,7 +111,7 @@ var today = new Date();
 
       <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
       </tr>
-      `
+        `
       let list = document.querySelector(".everyone-todo-list-body")
       console.log('adding item')
       list.innerHTML += html;

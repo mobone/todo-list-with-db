@@ -99,6 +99,8 @@ table tr:last-child td:last-child {
   margin-bottom: 5px;
 }
 
+/*  */
+/*  */
 /* index.html specific */
 .big {
   background-image: url("https://images.unsplash.com/photo-1519847015009-d834259a181b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80");
@@ -159,6 +161,9 @@ table tr:last-child td:last-child {
   background-color: #15781B;
 }
 
+/*  */
+/*  */
+/*  */
 /* add_users.html specific */
 body.userbackground {
   background: repeating-linear-gradient(
@@ -192,7 +197,7 @@ form.usersbox {
   padding-left: 5px;
   border: none;
   outline: none;
-  
+
 }
 .usersform input:focus {
   background-color: #272323;
