@@ -280,10 +280,22 @@ var today = new Date();
       } catch(err) {
         console.log('other err',err)
       }
-
-
-
   }
+
+
+  // function color_overdue_item(id, items_shift) {
+  //   let item = document.querySelector(`#row-${id}`);
+  //   if (items_shift != shift) {
+  //       if (item != null) { item.parentNode.removeChild(item)}
+  //   }
+  //     try {
+  //       item.classList.add('overdue')
+  //     } catch(err) {
+  //       console.log('other err',err)
+  //     }
+  // }
+
+
 
   function removeAssigneeFromRow(id) {
     let item = document.querySelector(`#assignee-${id}`);
