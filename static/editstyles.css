@@ -11,6 +11,7 @@ h1 {
 }
 table {
   background-color: #191717;
+  /* background-color: rgba(25,23,23, .25); */
   width: 100%;
 }
 tr {
@@ -20,6 +21,13 @@ td{
   padding: 10px;
   /* background-color: #191717; */
 }
+/* table tr:last-child td:first-child {
+    border-radius: 10px;
+}
+
+table tr:last-child td:last-child {
+    border-radius: 10px;
+} */
 
 .container {
   display: flex;
@@ -171,8 +179,7 @@ body.userbackground {
 }
 
 form.usersbox {
-  justify-content: center;
-  align-content: center;
+
 
 }
 .usersform input {
@@ -185,6 +192,7 @@ form.usersbox {
   padding-left: 5px;
   border: none;
   outline: none;
+  
 }
 .usersform input:focus {
   background-color: #272323;
@@ -200,4 +208,7 @@ form.usersbox {
   margin: 20px 0px 0px 67px;
   background-color: #4CAF50;
   color: white;
+}
+.addedUsers {
+  background-color: rgba(25,23,23, .25);
 }
