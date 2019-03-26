@@ -342,6 +342,11 @@ var today = new Date();
       });
   }
 
+  function editModal_func() {
+    let modal_title = document.querySelector('#exampleModalLongTitle')
+    modal_title.innerHTML = "Whatever title you want"
+  }
+
   function editUser(firstname, lastname, username, id) {
     let firstname_field = document.querySelector('.firstName')
       firstname_field.value = firstname
@@ -404,7 +409,7 @@ var today = new Date();
     // button.innerHTML += html;
     button.addEventListener('click', event)
 
-    let edit = button.`${data.id}`
+    //let edit = button.`${data.id}`
 
     let modal = $(this)
     modal.find('#edit-modal').text('Enter Text' + edit)
