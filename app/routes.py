@@ -6,7 +6,7 @@ import json
 import sqlite3
 import os
 from datetime import datetime
-#from flask_socketio import SocketIO
+from flask_socketio import SocketIO
 from datetime import datetime, timedelta
 from flask_login import current_user, login_user
 from app.models import User
@@ -15,10 +15,7 @@ from app.forms import LoginForm
 from flask_login import logout_user
 from flask_login import login_required
 
-
-
-#socketio = SocketIO(app)
-
+socketio = SocketIO(app)
 # database connection
 DATABASE = './database.db'
 def get_db():
@@ -313,7 +310,7 @@ def assign_item():
                 'comment': row[8]
 
                 }
-    #socketio.emit('assign', {'id': item_id, 'assignee': task_dict['assignee']})
+    socketio.emit('assign', {'id': item_id, 'assignee': task_dict['assignee']})
     return jsonify(task_dict)
 
 @app.route('/unassign-item/<item_id>')
@@ -326,13 +323,13 @@ def unassign_item(item_id):
     cur.execute(sql)
     conn.commit()
     data = {'id': item_id}
-    #socketio.emit('unassign', {'id': item_id})
+    socketio.emit('unassign', {'id': item_id})
     return jsonify(data)
 
 
 @app.route('/complete-item/<item_id>/<shift>/')
 @login_required
-#@socketio.on('completed')
+@socketio.on('completed')
 def complete_item(item_id, shift):
     print("completing", item_id)
     conn = get_db()
@@ -341,7 +338,7 @@ def complete_item(item_id, shift):
     cur.execute(sql)
     conn.commit()
     data = {'id': item_id}
-    #socketio.emit('completed', {'id': item_id, 'shift': shift})
+    socketio.emit('completed', {'id': item_id, 'shift': shift})
     return jsonify(data)
 """
 @app.route('/')
