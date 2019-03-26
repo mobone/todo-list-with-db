@@ -89,16 +89,20 @@ var today = new Date();
 
 
     for (var i = 0; i < itemsList.length; i++) {
+
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
 
       if (itemsList[i]['shift'] != shift & itemsList[i]["completed"]==1) {
+        console.log('continueing due to completed or shift not equal', itemsList)
         continue;
+
       }
       let completed_class = ''
       if (itemsList[i]['completed'] == 1) {
         completed_class = 'class="completed"'
       }
+
       let date_string = itemsList[i]['date'].split('-')[1] + "-" + itemsList[i]['date'].split('-')[2]
       let html = `
       <tr id="row-${itemsList[i]['id']}" ${completed_class}>
@@ -112,6 +116,7 @@ var today = new Date();
       <td><button class='btn btn-outline-success btn-sm assign-to-me' onclick="assignToMe(${itemsList[i]['id']})" >Assign</button></td>
       </tr>
         `
+
       let list = document.querySelector(".everyone-todo-list-body")
       console.log('adding item')
       list.innerHTML += html;

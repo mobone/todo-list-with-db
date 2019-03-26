@@ -11,15 +11,21 @@
       <h1>Base Tasks</h1>
     </div>
     <div class="container tasksubmitform">
-      <form>
-      <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
-      <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
-      <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)" >
-      <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
-      <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
-      <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)" >
-      <button class="btn btn-light submit submitTasks" type="submit"> Copy to todays tasks </button>
-      </form>
+      <div>
+        <form>
+        <input class="time" placeholder="0:00" autofocus="" onkeypress="addItem(event)" >
+        <input class="task" placeholder="Task" autofocus="" onkeypress="addItem(event)" >
+        <input class="assignee" placeholder="Assignee" autofocus="" onkeypress="addItem(event)" >
+        <input class="overdue" placeholder="Overdue" autofocus="" onkeypress="addItem(event)" >
+        <input class="comment" placeholder="Comment" autofocus="" onkeypress="addItem(event)" >
+        <input class="day" placeholder="Day" autofocus="" onkeypress="addItem(event)" >
+        </form>
+      </div>
+      <div>
+        <form action="/copy-to-today" method="post">
+        <button class="btn btn-light submit submitTasks" type="submit"> Copy to todays tasks </button>
+        </form>
+      </div>
     </div>
 
 

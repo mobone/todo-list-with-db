@@ -80,7 +80,7 @@ def get_all_tasks():
     sql = 'select * from base_tasks'
     cur.execute(sql)
     all_tasks = cur.fetchall()
-    print(all_tasks)
+    #print(all_tasks)
     tasks_list = []
     for task in all_tasks:
 
@@ -128,19 +128,19 @@ def removeTodo(item_id):
 @app.route('/add-users', methods = ['GET','POST'])
 @login_required
 def add_users_page():
-    print('got request', request.form)
+    #print('got request', request.form)
     if request.method == 'POST':
 
 
-        print(request.form)
+        #print(request.form)
 
         if request.form['userid'] != "":
-            print('updating user', request.form['userid'])
+            #print('updating user', request.form['userid'])
 
             user = User.query.filter_by(id=request.form['userid']).first()
 
             if 'change_password' in request.form.keys() and request.form['change_password'] == 'y':
-                print('changing password')
+                #print('changing password')
 
                 user.set_password(request.form['password'])
                 db.session.commit()
@@ -150,7 +150,7 @@ def add_users_page():
 
                 user = User.query.filter_by(id=request.form['userid']).first()
 
-                print('editing',user)
+                #print('editing',user)
                 if len(User.query.filter_by(username=request.form['username']).all()):
                     print('Username already exists')
                 else:
@@ -166,7 +166,7 @@ def add_users_page():
             #cur.execute(sql)
             #conn.commit()
         else:
-            print('adding user')
+            #print('adding user')
             u = User(username=request.form['username'],firstname=request.form['firstName'],lastname=request.form['lastName'],usertype=request.form['userType'])
             db.session.add(u)
             u.set_password(request.form['password'])
@@ -174,7 +174,7 @@ def add_users_page():
             #cur.execute(sql, (request.form['firstName'],request.form['lastName'], request.form['username'], pwd_hash, request.form['userType']))
             db.session.commit()
             #conn.commit()
-            print('user added')
+            #print('user added')
     return render_template('add_users.html')
 
 @app.route('/get_all_users')
@@ -263,7 +263,7 @@ def index():
 @app.route('/get-todays-tasks')
 @login_required
 def todays_tasks():
-    #print('here', session['username'])
+    #print('getting todays tasks')
     conn = get_db()
     cur = conn.cursor()
     sql = 'select * from todays_tasks where date=="%s" or date=="%s"' % (datetime.now().strftime("%Y-%m-%d"), (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d'))
@@ -320,7 +320,7 @@ def assign_item():
     item_id = data['item_id']
     conn = get_db()
     cur = conn.cursor()
-    print('>>>>>>>>>>>>', session.get(''))
+    #print('>>>>>>>>>>>>', session.get(''))
     #sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (session.get('username'), item_id)
     username = current_user.get_username()
     sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (username, item_id)
@@ -329,7 +329,7 @@ def assign_item():
     sql = 'select * from todays_tasks where id=="%s"' % (item_id)
     cur.execute(sql)
     row = cur.fetchone()
-    print(row)
+    #print(row)
     task_dict = {
                 'id': row[0],
                 'date': row[1],
@@ -348,7 +348,7 @@ def assign_item():
 @app.route('/unassign-item/<item_id>')
 @login_required
 def unassign_item(item_id):
-    print('unassigning', item_id)
+    #print('unassigning', item_id)
     conn = get_db()
     cur = conn.cursor()
     sql = 'update todays_tasks set assignee= "%s" where id == "%s"' % ("",item_id)
@@ -363,7 +363,7 @@ def unassign_item(item_id):
 @login_required
 @socketio.on('completed')
 def complete_item(item_id, shift):
-    print("completing", item_id)
+    #print("completing", item_id)
     conn = get_db()
     cur = conn.cursor()
     sql = 'update todays_tasks set completed = "%s" where id == "%s"' % (1,item_id)
