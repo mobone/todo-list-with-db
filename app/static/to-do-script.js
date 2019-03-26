@@ -350,7 +350,19 @@ var today = new Date();
       submit_button.innerHTML = 'Edit User'
     let user_title = document.querySelector('.user-title')
       user_title.innerHTML = 'Edit A User'
+    let password_field = document.querySelector('.password')
+      password_field.parentNode.removeChild(password_field);
     console.log('userid', id)
+
+    let change_password_div = document.querySelector('.change-password')
+    change_password_div.innerHTML = `<h4>Change Password</h4>
+            <form class="usersbox" action="/add-users" method="post">
+            <input class="changepassword" name="changepassword" type=hidden value="True">
+            <input class="password" type="password" name="password" placeholder="Password" autofocus="">
+            <input class="changepassword" name=changepassword type=hidden value="True">
+            <input class="userid" name=userid type=hidden value=`+id+`>
+            <button class="btn btn-light submit adduserbutton submit-button" type="submit"> Change Password </button>
+            </form>`
   }
 
   function displayAllUsers(itemsList) {

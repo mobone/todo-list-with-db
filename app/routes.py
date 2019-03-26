@@ -14,6 +14,7 @@ from app import app
 from app.forms import LoginForm
 from flask_login import logout_user
 from flask_login import login_required
+from app import db
 
 socketio = SocketIO(app)
 # database connection
@@ -127,22 +128,34 @@ def removeTodo(item_id):
 def add_users_page():
     print('got request', request.form)
     if request.method == 'POST':
-        conn = get_db()
-        cur = conn.cursor()
-        sql = 'select * from user where username=="%s"' % (request.form['username'])
-        cur.execute(sql)
-        matched_users = cur.fetchall()
-        if request.form['userid'] != "":
-            print('updating user')
-            sql = 'update user set firstname = "%s", lastname = "%s", username = "%s", password_hash = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType'], request.form['userid'])
-            cur.execute(sql)
-            conn.commit()
-        elif len(matched_users):
-            print('user already exists')
+
+
+        print(request.form)
+
+        if request.form['userid'] != "" and request.form['changepassword'] == True:
+            print('updating user', request.form['userid'])
+
+
+            user = User.query.filter_by(id=request.form['userid']).first()
+            print('editing',user)
+            user.username = request.form['username']
+            user.firstname = request.form['firstName']
+            user.lastname = request.form['lastName']
+            user.usertype = request.form['userType']
+            db.session.commit()
+            #sql = 'update user set firstname = "%s", lastname = "%s", username = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['userType'], request.form['userid'])
+            #cur.execute(sql)
+            #conn.commit()
+        elif request.form['changepassword'] == True:
+            print('changing password')
         else:
-            sql = 'INSERT into user (firstname, lastname, username, password_hash, usertype) VALUES (?,?,?,?,?)'
-            cur.execute(sql, (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType']))
-            conn.commit()
+            u = User(username=request.form['username'],firstname=request.form['firstName'],lastname=request.form['lastName'],usertype=request.form['userType'])
+            db.session.add(u)
+            u.set_password(request.form['password'])
+            #sql = 'INSERT into user (firstname, lastname, username, password_hash, usertype) VALUES (?,?,?,?,?)'
+            #cur.execute(sql, (request.form['firstName'],request.form['lastName'], request.form['username'], pwd_hash, request.form['userType']))
+            db.session.commit()
+            #conn.commit()
             print('user added')
     return render_template('add_users.html')
 

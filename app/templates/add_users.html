@@ -11,18 +11,24 @@
       <div class="col form usersform">
         <!-- <div class="form form-color"> -->
           <h4 class='user-title'> Add A User </h4>
-        <form class="usersbox" action="/add-users" method="post">
+        <form class="usersbox" action="/add-users" method="post" autocomplete="off">
 
           <input class="firstName" name="firstName" placeholder="First Name" autofocus="">
           <input class="lastName" name="lastName" placeholder="Last Name" autofocus=""> <br>
-          <input class="username" name="username" placeholder="Username" autofocus="">
-          <input class="password" type="password" name="password" placeholder="Password" autofocus=""> <br> <br>
+          <input class="username" name="username" placeholder="Username" autofocus="" autocomplete="off">
+          <input class="password" type="password" name="password" placeholder="Password" autofocus="" value = ""> <br> <br>
           <input class="userType" type="radio" placeholder="Admin User" value="Admin" name="userType"> Admin User
           <input class="userType" type="radio" placeholder="Standard User" value="Standard" name="userType" checked> Standard User <br>
           <input class="userid" name=userid type=hidden value="">
-          <button class="btn btn-light submit adduserbutton" type="submit"> Add User </button>
+          <input class="changepassword" name=changepassword type=hidden value="False">
+
+
+          <button class="btn btn-light submit adduserbutton submit-button" type="submit"> Add User </button>
         </form>
         <!-- </div> -->
+        <br>
+        <div class='change-password'>
+        </div>
       </div>
 
 
