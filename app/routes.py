@@ -129,18 +129,18 @@ def add_users_page():
     if request.method == 'POST':
         conn = get_db()
         cur = conn.cursor()
-        sql = 'select * from users where username=="%s"' % (request.form['username'])
+        sql = 'select * from user where username=="%s"' % (request.form['username'])
         cur.execute(sql)
         matched_users = cur.fetchall()
         if request.form['userid'] != "":
             print('updating user')
-            sql = 'update users set firstname = "%s", lastname = "%s", username = "%s", password = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType'], request.form['userid'])
+            sql = 'update user set firstname = "%s", lastname = "%s", username = "%s", password_hash = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType'], request.form['userid'])
             cur.execute(sql)
             conn.commit()
         elif len(matched_users):
             print('user already exists')
         else:
-            sql = 'INSERT into users (firstname, lastname, username, password, usertype) VALUES (?,?,?,?,?)'
+            sql = 'INSERT into user (firstname, lastname, username, password_hash, usertype) VALUES (?,?,?,?,?)'
             cur.execute(sql, (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['password'], request.form['userType']))
             conn.commit()
             print('user added')
@@ -151,18 +151,18 @@ def add_users_page():
 def get_all_users():
     conn = get_db()
     cur = conn.cursor()
-    sql = 'select * from users'
+    sql = 'select * from user'
     cur.execute(sql)
     all_users = cur.fetchall()
     users_list = []
     for user in all_users:
         user_dict = {
-                    'firstname': user[0],
-                    'lastname': user[1],
-                    'username': user[2],
-                    'password': user[3],
-                    'userType': user[4],
-                    'id': user[5]
+                    'id': user[0],
+                    'username': user[1],
+                    'firstname': user[2],
+                    'lastname': user[3],
+
+                    'userType': user[5]
                     }
         users_list.append(user_dict)
 
@@ -173,7 +173,7 @@ def get_all_users():
 def remove_user():
     conn = get_db()
     cur = conn.cursor()
-    sql = 'delete from users where username=="%s"' % (request.form['username'])
+    sql = 'delete from user where username=="%s"' % (request.form['username'])
     cur.execute(sql)
     conn.commit()
     return render_template('add_users.html')
