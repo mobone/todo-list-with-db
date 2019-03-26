@@ -401,6 +401,12 @@ var today = new Date();
 
   function modalEdit (event) {
     let button = document.querySelector('.editModal')
-    button.innerHTML += html;
+    // button.innerHTML += html;
     button.addEventListener('click', event)
+
+    let edit = button.`${data.id}`
+
+    let modal = $(this)
+    modal.find('#edit-modal').text('Enter Text' + edit)
+    modal.find('.modal-body').val(edit)
   }
