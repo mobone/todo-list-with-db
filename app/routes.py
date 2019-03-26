@@ -256,8 +256,9 @@ def todays_tasks():
         todays_tasks_list.append(task_dict)
 
     #sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), session.get('username'))
-    # TODO use session variable
-    sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), 'nreichel')
+
+    username = current_user.get_username()
+    sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), username)
     cur.execute(sql)
     my_tasks_db = cur.fetchall()
     my_tasks_list = []
@@ -290,8 +291,8 @@ def assign_item():
     cur = conn.cursor()
     print('>>>>>>>>>>>>', session.get(''))
     #sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (session.get('username'), item_id)
-    # TODO
-    sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % ('nreichel', item_id)
+    username = current_user.get_username()
+    sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (username, item_id)
     cur.execute(sql)
     conn.commit()
     sql = 'select * from todays_tasks where id=="%s"' % (item_id)
@@ -340,13 +341,7 @@ def complete_item(item_id, shift):
     data = {'id': item_id}
     socketio.emit('completed', {'id': item_id, 'shift': shift})
     return jsonify(data)
-"""
-@app.route('/')
-@app.route('/index')
-def index():
-    # ...
-    return render_template("index.html", title='Home Page', posts=posts)
-"""
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -365,43 +360,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-"""
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    session['username'] = 'fred'
-    if request.method == 'POST':
-        conn = get_db()
-        cur = conn.cursor()
-        sql = 'select username,password,firstname,lastname from users where username == "%s"' % request.form['username']
-        cur.execute(sql)
-        user_values = cur.fetchone()
 
-        if user_values is None:
-            error = 'Invalid credentials'
-            return render_template('index.html', error=error)
-        user = {'username': user_values[0],
-                'password': user_values[1],
-                'firstname': user_values[2],
-                'lastname': user_values[3]}
-        if request.form['username'] != user['username'] or \
-                request.form['password'] != user['password']:
-            error = 'Invalid credentials'
-        else:
-            session['logged_in'] = True
-            session['name'] = user['firstname'] + ' ' + user['lastname']
-            session['username'] = user['username']
-            print("set session useranem", session['username'])
-            return redirect(url_for('base_tasks'))
-    return render_template('index.html', error=error)
-"""
-
-"""
-@app.route("/logout")
-def logout():
-    session['logged_in'] = False
-    return home()
-"""
 from flask import send_from_directory
 
 @app.route('/favicon.ico')
