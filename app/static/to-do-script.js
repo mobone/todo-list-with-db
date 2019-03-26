@@ -33,7 +33,7 @@
             <td>${data.overdue}</td>
             <td>${data.comment}</td>
             <td>${data.day}</td>
-            <td><button type="button"  data-toggle="modal" data-target="edit-modal" class="btn btn-outline-warning btn-sm editModal" onclick="modalEdit('${data.id}')">Edit Task</button></td>
+
             <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
             </tr>`;
         let list = document.querySelector(".todo-list")
@@ -199,13 +199,16 @@ var today = new Date();
     for (var i = 0; i < itemsList.length; i++) {
       //<td><button class="btn btn-outline-primary btn-sm" type="checkbox" onclick="toggleComplete(this)"
       //data-completed="${itemsList[i]['completed']}" data-id="${itemsList[i]['id']}">Select</button></td>
+
+      // old edit button <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
         let html = `
         <tr class="taable" id="row-${itemsList[i]['id']}">
         <td>${itemsList[i]['time']}</td>
         <td>${itemsList[i]['task']}</td>
         <td>${itemsList[i]['overdue']}</td>
         <td>${itemsList[i]['comment']}</td>
-        <td><button type="button" class="btn btn-outline-warning btn-sm">Edit Task</button></td>
+
+        <td><button type="button"  data-toggle="modal" data-target="#edit-modal" class="btn btn-outline-warning btn-sm editModal" onclick="modalEdit('${itemsList[i]['id']}')">Edit Task</button></td>
         <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${itemsList[i]['id']}')">Delete</button></td>
         </tr>
         `
@@ -342,9 +345,10 @@ var today = new Date();
       });
   }
 
-  function editModal_func() {
+  function modalEdit(id) {
+    console.log('editing modal')
     let modal_title = document.querySelector('#exampleModalLongTitle')
-    modal_title.innerHTML = "Whatever title you want"
+    modal_title.innerHTML = "Whatever title you want " + id
   }
 
   function editUser(firstname, lastname, username, id) {
@@ -401,17 +405,4 @@ var today = new Date();
       let list = document.querySelector(".addedUsers")
       list.innerHTML += html;
     }
-  }
-
-
-  function modalEdit (event) {
-    let button = document.querySelector('.editModal')
-    // button.innerHTML += html;
-    button.addEventListener('click', event)
-
-    //let edit = button.`${data.id}`
-
-    let modal = $(this)
-    modal.find('#edit-modal').text('Enter Text' + edit)
-    modal.find('.modal-body').val(edit)
   }
