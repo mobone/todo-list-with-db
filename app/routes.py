@@ -15,6 +15,8 @@ from app.forms import LoginForm
 from flask_login import logout_user
 from flask_login import login_required
 from app import db
+from sqlalchemy.exc import SQLAlchemyError
+
 
 socketio = SocketIO(app)
 # database connection
@@ -132,23 +134,39 @@ def add_users_page():
 
         print(request.form)
 
-        if request.form['userid'] != "" and request.form['changepassword'] == True:
+        if request.form['userid'] != "":
             print('updating user', request.form['userid'])
 
-
             user = User.query.filter_by(id=request.form['userid']).first()
-            print('editing',user)
-            user.username = request.form['username']
-            user.firstname = request.form['firstName']
-            user.lastname = request.form['lastName']
-            user.usertype = request.form['userType']
-            db.session.commit()
+
+            if 'change_password' in request.form.keys() and request.form['change_password'] == 'y':
+                print('changing password')
+
+                user.set_password(request.form['password'])
+                db.session.commit()
+
+
+            else:
+
+                user = User.query.filter_by(id=request.form['userid']).first()
+
+                print('editing',user)
+                if len(User.query.filter_by(username=request.form['username']).all()):
+                    print('Username already exists')
+                else:
+                    user.username = request.form['username']
+                user.firstname = request.form['firstName']
+                user.lastname = request.form['lastName']
+                user.usertype = request.form['userType']
+                db.session.commit()
+
+
+
             #sql = 'update user set firstname = "%s", lastname = "%s", username = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['userType'], request.form['userid'])
             #cur.execute(sql)
             #conn.commit()
-        elif request.form['changepassword'] == True:
-            print('changing password')
         else:
+            print('adding user')
             u = User(username=request.form['username'],firstname=request.form['firstName'],lastname=request.form['lastName'],usertype=request.form['userType'])
             db.session.add(u)
             u.set_password(request.form['password'])

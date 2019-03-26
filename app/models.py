@@ -7,8 +7,8 @@ from app import login
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    firstname = db.Column(db.String(120), index=True, unique=True)
-    lastname = db.Column(db.String(120), index=True, unique=True)
+    firstname = db.Column(db.String(120), index=True)
+    lastname = db.Column(db.String(120), index=True)
     password_hash = db.Column(db.String(128))
     usertype = db.Column(db.String(64))
 
