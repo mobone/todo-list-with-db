@@ -18,6 +18,12 @@ class User(UserMixin, db.Model):
     def get_username(self):
         return self.username
 
+    def get_admin(self):
+        if self.usertype == "Admin":
+            return True
+        else:
+            return False
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

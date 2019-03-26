@@ -27,9 +27,12 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       {% if current_user.is_authenticated %}
-      <a class="nav-item nav-link active" href="/base_tasks">Index<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="/add-users">User</a>
-      <a class="nav-item nav-link" href="/user-page">Task List</a>
+        <a class="nav-item nav-link active" href="/base_tasks">Index<span class="sr-only">(current)</span></a>
+
+        {% if current_user.get_admin() == True %}
+          <a class="nav-item nav-link" href="/add-users">User</a>
+        {% endif %}
+        <a class="nav-item nav-link" href="/user-page">Task List</a>
       {% endif %}
       {% if current_user.is_anonymous %}
       <a class="nav-item nav-link" href="/login"> Login </a>
