@@ -33,7 +33,7 @@
             <td>${data.overdue}</td>
             <td>${data.comment}</td>
             <td>${data.day}</td>
-            <td><button type="button" class="btn btn-outline-warning btn-sm" onclick="editItem('${data.id}')">Edit Task</button></td>
+            <td><button type="button"  data-toggle="modal" data-target="edit-modal" class="btn btn-outline-warning btn-sm editModal" onclick="editItem('${data.id}')">Edit Task</button></td>
             <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
             </tr>`;
         let list = document.querySelector(".todo-list")
@@ -396,4 +396,11 @@ var today = new Date();
       let list = document.querySelector(".addedUsers")
       list.innerHTML += html;
     }
+  }
+
+
+  function modalEdit (event) {
+    let button = document.querySelector('.editModal')
+    button.innerHTML += html;
+    button.addEventListener('click', event)
   }
