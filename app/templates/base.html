@@ -1,0 +1,51 @@
+<!-- ./templates/index.html -->
+<html>
+<head>
+  <!-- link to the Todo MVC index.css file -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='editstyles.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <script src="{{ url_for('static', filename='sorttable.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='to-do-script.js') }}"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+  <title>Todo List</title>
+</head>
+
+{% block body %} {% endblock %}
+
+  <nav class="navbar navbar-expand-lg navbar-dark ">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+
+      <a class="nav-item nav-link active" href="/base_tasks">Index<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/login"> Login </a>
+      <a class="nav-item nav-link" href="/add-users">User</a>
+      <a class="nav-item nav-link" href="/user-page">Task List</a>
+      <a class="nav-item nav-link" href="/logout"> Logout </a>
+      <!-- <a class="nav-item nav-link" href="#">Pricing</a>
+      <a class="nav-item nav-link disabled" href="#">Disabled</a> -->
+    </div>
+  </div>
+  </nav>
+<!-- <div class="navbar">
+<a class="navbar" href="/"> Index</a>
+<a class="navbar" href="/add-users"> Add Users</a>
+"userPage.html"  is the users view of the tasks
+<a class="navbar" href="/user-page"> Task Portal </a>
+</div> -->
+  <div class="container-fluid">
+  {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>

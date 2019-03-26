@@ -1,2 +1,4 @@
 
 All-Tasks-with-Comments.xlsx
+*.pyc
+/venv/
