@@ -32,6 +32,7 @@
             <td>${data.task}</td>
             <td>${data.overdue}</td>
             <td>${data.comment}</td>
+            <td><button type="button"  data-toggle="modal" data-target="#edit-modal" class="btn btn-outline-warning btn-sm editModal" onclick="modalEdit('${itemsList[i]['id']}')">Edit Task</button></td>
             <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
             </tr>`;
         let list = document.querySelector(".todo-list")
