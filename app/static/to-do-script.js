@@ -111,7 +111,7 @@ var today = new Date();
       <td>${date_string}</td>
       <td>${itemsList[i]['time']}</td>
       <td>${itemsList[i]['shift']}</td>
-      <td><a href="${itemsList[i]['link']}" class="link">${itemsList[i]['task']}</a></td>
+      <td><a href="${itemsList[i]['link']}" class="link" target="_blank">${itemsList[i]['task']}</a></td>
       <td id="assignee-${itemsList[i]['id']}">${itemsList[i]['assignee']}</td>
       <td>${itemsList[i]['overdue']}</td>
 
@@ -139,7 +139,7 @@ var today = new Date();
       let html = `
       <tr id="my-row-${itemsList[i]['id']}" ${completed_class}>
       <td>${itemsList[i]['time']}</td>
-      <td><a href="${itemsList[i]['link']}" class="link">${itemsList[i]['task']}</a></td>
+      <td><a href="${itemsList[i]['link']}" class="link" target="_blank">${itemsList[i]['task']}</a></td>
 
       <td>${itemsList[i]['overdue']}</td>
 
@@ -174,7 +174,7 @@ var today = new Date();
       let html = `
           <tr id="my-row-${data['id']}" ${completed_class}>
           <td>${data['time']}</td>
-          <td><a href="${data.link}" class="link">${data['task']}</a></td>
+          <td><a href="${data.link}" class="link" target="_blank">${data['task']}</a></td>
 
           <td>${data['overdue']}</td>
 

@@ -274,12 +274,12 @@ body.userbackground {
   background-color: rgba(25,23,23, .25);
 }
 
-.me-todo-list {
-  background-color: rgba(25,23,23, .25);
-}
 .myTasks {
   background-color: rgba(25,23,23, .75);
   border-radius: 10px;
   box-shadow: 4px 4px 3px black, -1px -1px 5px black;
   margin-left: 10px;
+}
+.me-todo-list {
+  background-color: rgba(25,23,23, .25);
 }
