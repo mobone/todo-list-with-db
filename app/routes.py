@@ -70,7 +70,8 @@ def get_all_tasks():
                     'shift': task.shift,
                     'task': task.task,
                     'overdue': task.overdue,
-                    'comment': task.comments
+                    'comment': task.comments,
+                    'link': task.link
                     }
         tasks_list.append(task_dict)
     return jsonify(tasks_list)
@@ -165,7 +166,7 @@ def copy_tasks_to_today():
                            task=task.task, overdue=task.overdue,
                            comments=task.comments, assignee='',
                            completed=0, completed_date='',
-                           completed_time='',completed_by='')
+                           completed_time='',completed_by='', link=task.link)
         db.session.add(task)
     db.session.commit()
 
@@ -194,7 +195,8 @@ def todays_tasks():
                     'completed': task.completed,
                     'assignee': task.assignee,
                     'overdue': task.overdue,
-                    'comment': task.comments
+                    'comment': task.comments,
+                    'link': task.link
                     }
         todays_tasks_list.append(task_dict)
 
@@ -212,7 +214,8 @@ def todays_tasks():
                     'completed': task.completed,
                     'assignee': task.assignee,
                     'overdue': task.overdue,
-                    'comment': task.comments
+                    'comment': task.comments,
+                    'link': task.link
                     }
         my_tasks_list.append(task_dict)
 
@@ -238,7 +241,8 @@ def assign_item():
                 'completed': task.completed,
                 'assignee': task.assignee,
                 'overdue': task.overdue,
-                'comment': task.comments
+                'comment': task.comments,
+                'link': task.link
                 }
     socketio.emit('assign', {'id': task.id, 'assignee': task.assignee})
 

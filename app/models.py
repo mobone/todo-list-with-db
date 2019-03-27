@@ -41,6 +41,7 @@ class Base_Task(db.Model):
     task = db.Column(db.String(350))
     overdue = db.Column(db.String(70))
     comments = db.Column(db.String(350))
+    link = db.Column(db.String(650))
 
 
 class Todays_Task(db.Model):
@@ -56,6 +57,7 @@ class Todays_Task(db.Model):
     completed_date = db.Column(db.String(70))
     completed_time = db.Column(db.String(70))
     completed_by = db.Column(db.String(100))
+    link = db.Column(db.String(650))
 
 class Archived_Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,3 +72,4 @@ class Archived_Task(db.Model):
     completed_date = db.Column(db.DateTime)
     completed_time = db.Column(db.DateTime)
     completed_by = db.Column(db.String(100))
+    link = db.Column(db.String(650))
