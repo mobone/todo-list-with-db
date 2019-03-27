@@ -34,16 +34,39 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
-class Task(db.Model):
+class Base_Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    time = db.Column(db.String(70))
+    shift = db.Column(db.String(30))
+    task = db.Column(db.String(350))
+    overdue = db.Column(db.String(70))
+    comments = db.Column(db.String(350))
+
+
+class Todays_Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(70))
+    time = db.Column(db.String(70))
+    shift = db.Column(db.String(30))
+    task = db.Column(db.String(350))
+    overdue = db.Column(db.String(70))
+    comments = db.Column(db.String(350))
+    assignee = db.Column(db.String(100))
+    completed = db.Column(db.Integer)
+    completed_date = db.Column(db.String(70))
+    completed_time = db.Column(db.String(70))
+    completed_by = db.Column(db.String(100))
+
+class Archived_Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime)
     time = db.Column(db.DateTime)
     shift = db.Column(db.String(30))
     task = db.Column(db.String(350))
-    completed = db.Column(db.Integer)
-    assignee = db.Column(db.String(100))
     overdue = db.Column(db.DateTime)
     comments = db.Column(db.String(350))
+    assignee = db.Column(db.String(100))
+    completed = db.Column(db.Integer)
     completed_date = db.Column(db.DateTime)
     completed_time = db.Column(db.DateTime)
     completed_by = db.Column(db.String(100))

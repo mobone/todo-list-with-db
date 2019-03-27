@@ -2,38 +2,36 @@
     // if enter key is pressed on the form input, add new item
     if (e.which == 13 || e.keyCode == 13) {
       let time = document.querySelector('.time');
+      let shift = document.querySelector('.shift');
       let task = document.querySelector('.task');
-      let assignee = document.querySelector('.assignee');
       let overdue = document.querySelector('.overdue');
       let comment = document.querySelector('.comment');
       fetch('/add-todo', {
         method: 'post',
         body: JSON.stringify({
           time: time.value,
+          shift: shift.value,
           task: task.value,
-          assignee: assignee.value,
           overdue: overdue.value,
-          comment: comment.value,
-          completed: 0
+          comment: comment.value
         })
       }).then(function(response) {
-        time.value = "";
+        time.value = ""
+        shift.value = ""
         task.value = ""
-        assignee.value = ""
         overdue.value = ""
         comment.value = ""
         return response.json();
       }).then(function(data) {
         console.log(JSON.stringify(data));
+        //<td>${data.day}</td>
         let html = `
             <tr class="contained-table" id="row-${data.id}">
             <td>${data.time}</td>
+            <td>${data.shift}</td>
             <td>${data.task}</td>
-            <td>${data.assignee}</td>
             <td>${data.overdue}</td>
             <td>${data.comment}</td>
-            <td>${data.day}</td>
-
             <td><button class="btn btn-outline-danger btn-sm" onclick="removeItem('${data.id}')">Delete</button></td
             </tr>`;
         let list = document.querySelector(".todo-list")
@@ -204,6 +202,7 @@ var today = new Date();
         let html = `
         <tr class="taable" id="row-${itemsList[i]['id']}">
         <td>${itemsList[i]['time']}</td>
+        <td>${itemsList[i]['shift']}</td>
         <td>${itemsList[i]['task']}</td>
         <td>${itemsList[i]['overdue']}</td>
         <td>${itemsList[i]['comment']}</td>

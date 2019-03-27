@@ -9,7 +9,7 @@ from datetime import datetime
 from flask_socketio import SocketIO
 from datetime import datetime, timedelta
 from flask_login import current_user, login_user
-from app.models import User
+from app.models import User, Base_Task, Todays_Task
 from app import app
 from app.forms import LoginForm
 from flask_login import logout_user
@@ -33,12 +33,7 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
-"""
-# index route, shows index.html view
-@app.route('/')
-def home():
-    return render_template('index.html')
-"""
+
 @app.route('/base_tasks')
 @login_required
 def base_tasks():
@@ -48,66 +43,38 @@ def base_tasks():
 # endpoint for storing todo item
 @app.route('/add-todo', methods = ['POST'])
 @login_required
-def addTodo():
-    conn = get_db()
-    cur = conn.cursor()
-
-    # load JSON data from request
+def addTodo(): ## TODO:
     data = json.loads(request.data)
 
-    # insert data into database
-    columns = ', '.join(data.keys())
-    placeholders = ', '.join('?' * len(data))
-    sql = 'INSERT into base_tasks ({}) VALUES ({})'.format(columns, placeholders)
-    cur.execute(sql, (data['time'], data['shift'], data['task'], data['assignee'], data['overdue'], data['comment'], data['completed']))
-    conn.commit()
-
-    # query to get task id
-    sql = 'select id from base_tasks where time=="%s" and task=="%s"' % (data['time'], data['task'])
-    id = cur.execute(sql)
-    data['id'] = id.fetchone()[0]
-
+    task = Base_Task(time=data['time'], shift=data['shift'],task=data['task'],overdue=data['overdue'],comments=data['comment'])
+    db.session.add(task)
+    db.session.commit()
 
     return jsonify(data)
 
 @app.route('/get_all_tasks')
 @login_required
 def get_all_tasks():
-    #user = Task.query.filter_by(id=request.form['userid']).first()
-    conn = get_db()
-    cur = conn.cursor()
 
-    sql = 'select * from base_tasks'
-    cur.execute(sql)
-    all_tasks = cur.fetchall()
-    #print(all_tasks)
+    base_tasks = Base_Task.query.all()
     tasks_list = []
-    for task in all_tasks:
-
-        task = list(task)
-        if '.' in task[1]:
-            task[1] = task[1].split('.')[0]
-        if task[6] is not None and '.' in task[6]:
-            task[6] = task[6].split('.')[0]
-
-        for i in range(len(task)):
-            if task[i] is None:
-                task[i] = ""
-
+    for task in base_tasks:
+        if task.comments == None:
+            task.comments = ''
+        task.time = task.time.split('.')[0]
+        if task.overdue is not None:
+            task.overdue = task.overdue.split('.')[0]
         task_dict = {
-                    'id': task[0],
-                    'time': task[1],
-                    'shift': task[2],
-                    'task': task[3],
-                    'completed': task[4],
-                    'assignee': task[5],
-                    'overdue': task[6],
-                    'comment': task[7]
+                    'id': task.id,
+                    'time': task.time,
+                    'shift': task.shift,
+                    'task': task.task,
+                    'overdue': task.overdue,
+                    'comment': task.comments
                     }
         tasks_list.append(task_dict)
-
-
     return jsonify(tasks_list)
+
 
 # endpoint for deleting todo item
 @app.route('/remove-todo/<item_id>')
@@ -130,27 +97,13 @@ def removeTodo(item_id):
 def add_users_page():
     #print('got request', request.form)
     if request.method == 'POST':
-
-
-        #print(request.form)
-
         if request.form['userid'] != "":
-            #print('updating user', request.form['userid'])
-
             user = User.query.filter_by(id=request.form['userid']).first()
-
             if 'change_password' in request.form.keys() and request.form['change_password'] == 'y':
-                #print('changing password')
-
                 user.set_password(request.form['password'])
                 db.session.commit()
-
-
             else:
-
                 user = User.query.filter_by(id=request.form['userid']).first()
-
-                #print('editing',user)
                 if len(User.query.filter_by(username=request.form['username']).all()):
                     print('Username already exists')
                 else:
@@ -159,41 +112,25 @@ def add_users_page():
                 user.lastname = request.form['lastName']
                 user.usertype = request.form['userType']
                 db.session.commit()
-
-
-
-            #sql = 'update user set firstname = "%s", lastname = "%s", username = "%s", usertype = "%s" where id == %s' % (request.form['firstName'],request.form['lastName'], request.form['username'], request.form['userType'], request.form['userid'])
-            #cur.execute(sql)
-            #conn.commit()
         else:
-            #print('adding user')
             u = User(username=request.form['username'],firstname=request.form['firstName'],lastname=request.form['lastName'],usertype=request.form['userType'])
             db.session.add(u)
             u.set_password(request.form['password'])
-            #sql = 'INSERT into user (firstname, lastname, username, password_hash, usertype) VALUES (?,?,?,?,?)'
-            #cur.execute(sql, (request.form['firstName'],request.form['lastName'], request.form['username'], pwd_hash, request.form['userType']))
             db.session.commit()
-            #conn.commit()
-            #print('user added')
     return render_template('add_users.html')
 
 @app.route('/get_all_users')
 @login_required
 def get_all_users():
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'select * from user'
-    cur.execute(sql)
-    all_users = cur.fetchall()
+    users = User.query.all()
     users_list = []
-    for user in all_users:
+    for u in users:
         user_dict = {
-                    'id': user[0],
-                    'username': user[1],
-                    'firstname': user[2],
-                    'lastname': user[3],
-
-                    'userType': user[5]
+                    'id': u.id,
+                    'username': u.username,
+                    'firstname': u.firstname,
+                    'lastname': u.lastname,
+                    'userType': u.usertype
                     }
         users_list.append(user_dict)
 
@@ -202,6 +139,7 @@ def get_all_users():
 @app.route('/remove-user', methods = ['POST'])
 @login_required
 def remove_user():
+    #u = User.query.filter_by(username=request.form['username'])
     conn = get_db()
     cur = conn.cursor()
     sql = 'delete from user where username=="%s"' % (request.form['username'])
@@ -213,97 +151,72 @@ def remove_user():
 @login_required
 def copy_tasks_to_today():
     date = datetime.now().strftime("%Y-%m-%d")
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'select * from base_tasks'
-    cur.execute(sql)
-    tasks = cur.fetchall()
+    base_tasks = Base_Task.query.all()
+    for task in base_tasks:
+        if task.comments == None:
+            task.comments = ''
+        task.time = task.time.split('.')[0]
+        if task.overdue is not None:
+            task.overdue = task.overdue.split('.')[0]
 
-
-    for task in tasks:
-        task = list(task)
-        if '.' in task[1]:
-            task[1] = task[1].split('.')[0]
-        if task[6] is not None and '.' in task[6]:
-            task[6] = task[6].split('.')[0]
-        for i in range(len(task)):
-            if task[i] is None:
-                task[i] = ""
-        day_comment = task[7]
-
+        add_to_today = False
         todays_day = datetime.today().strftime('%A')
-
-        if day_comment == '':
-            add_row_to_today(date, task)
-        elif todays_day.lower() in day_comment.lower() and 'Not '.lower()+todays_day.lower() not in day_comment.lower():
-            add_row_to_today(date, task)
-
-
-
-    conn.commit()
+        if task.comments=='':
+            add_to_today = True
+        elif todays_day.lower() in task.comments.lower() and 'not '+task.comments.lower() not in task.comments.lower():
+            add_to_today = True
+        task = Todays_Task(date=date, time=task.time, shift=task.shift,
+                           task=task.task, overdue=task.overdue,
+                           comments=task.comments, assignee='',
+                           completed=0, completed_date='',
+                           completed_time='',completed_by='')
+        db.session.add(task)
+    db.session.commit()
 
     return render_template('user_page.html')
-
-def add_row_to_today(date,task):
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'INSERT into todays_tasks ("date","time","shift","task","completed","assignee","overdue","comments") VALUES (?,?,?,?,?,?,?,?)'
-    cur.execute(sql, (date,task[1],task[2],task[3],task[4],task[5],task[6],""))
-    conn.commit()
-
 
 @app.route('/')
 @app.route('/index')
 @app.route('/user-page')
 @login_required
 def index():
-
     return render_template('user_page.html')
 
 @app.route('/get-todays-tasks')
 @login_required
 def todays_tasks():
-    #print('getting todays tasks')
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'select * from todays_tasks where date=="%s" or date=="%s"' % (datetime.now().strftime("%Y-%m-%d"), (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d'))
-    cur.execute(sql)
-    all_tasks_db = cur.fetchall()
+    tasks = Todays_Task.query.all()
     all_tasks_dict = {}
     todays_tasks_list = []
-    for task in all_tasks_db:
+    for task in tasks:
         task_dict = {
-                    'id': task[0],
-                    'date': task[1],
-                    'time': task[2],
-                    'shift': task[3],
-                    'task': task[4],
-                    'completed': task[5],
-                    'assignee': task[6],
-                    'overdue': task[7],
-                    'comment': task[8],
-
+                    'id': task.id,
+                    'date': task.date,
+                    'time': task.time,
+                    'shift': task.shift,
+                    'task': task.task,
+                    'completed': task.completed,
+                    'assignee': task.assignee,
+                    'overdue': task.overdue,
+                    'comment': task.comments
                     }
         todays_tasks_list.append(task_dict)
 
-    #sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), session.get('username'))
 
-    username = current_user.get_username()
-    sql = 'select * from todays_tasks where date=="%s" and assignee=="%s"' % (datetime.now().strftime("%Y-%m-%d"), username)
-    cur.execute(sql)
-    my_tasks_db = cur.fetchall()
     my_tasks_list = []
-    for task in my_tasks_db:
+    username = current_user.get_username()
+    my_tasks = Todays_Task.query.filter_by(assignee=username).all()
+    for task in my_tasks:
         task_dict = {
-                    'id': task[0],
-                    'date': task[1],
-                    'time': task[2],
-                    'shift': task[3],
-                    'task': task[4],
-                    'completed': task[5],
-                    'assignee': task[6],
-                    'overdue': task[7],
-                    'comment': task[8]
+                    'id': task.id,
+                    'date': task.date,
+                    'time': task.time,
+                    'shift': task.shift,
+                    'task': task.task,
+                    'completed': task.completed,
+                    'assignee': task.assignee,
+                    'overdue': task.overdue,
+                    'comment': task.comments
                     }
         my_tasks_list.append(task_dict)
 
@@ -316,59 +229,48 @@ def todays_tasks():
 @login_required
 def assign_item():
     data = json.loads(request.data)
+    task = Todays_Task.query.filter_by(id=data['item_id']).first()
+    task.assignee = current_user.get_username()
+    db.session.commit()
 
-    item_id = data['item_id']
-    conn = get_db()
-    cur = conn.cursor()
-    #print('>>>>>>>>>>>>', session.get(''))
-    #sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (session.get('username'), item_id)
-    username = current_user.get_username()
-    sql = 'update todays_tasks set assignee = "%s" where id=="%s"' % (username, item_id)
-    cur.execute(sql)
-    conn.commit()
-    sql = 'select * from todays_tasks where id=="%s"' % (item_id)
-    cur.execute(sql)
-    row = cur.fetchone()
-    #print(row)
     task_dict = {
-                'id': row[0],
-                'date': row[1],
-                'time': row[2],
-                'shift': row[3],
-                'task': row[4],
-                'completed': row[5],
-                'assignee': row[6],
-                'overdue': row[7],
-                'comment': row[8]
-
+                'id': task.id,
+                'date': task.date,
+                'time': task.time,
+                'shift': task.shift,
+                'task': task.task,
+                'completed': task.completed,
+                'assignee': task.assignee,
+                'overdue': task.overdue,
+                'comment': task.comments
                 }
-    socketio.emit('assign', {'id': item_id, 'assignee': task_dict['assignee']})
+    socketio.emit('assign', {'id': task.id, 'assignee': task.assignee})
+
     return jsonify(task_dict)
 
 @app.route('/unassign-item/<item_id>')
 @login_required
 def unassign_item(item_id):
-    #print('unassigning', item_id)
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'update todays_tasks set assignee= "%s" where id == "%s"' % ("",item_id)
-    cur.execute(sql)
-    conn.commit()
+    task = Todays_Task.query.filter_by(id=item_id).first()
+    task.assignee = ""
+    db.session.commit()
+
     data = {'id': item_id}
     socketio.emit('unassign', {'id': item_id})
     return jsonify(data)
+
+
 
 
 @app.route('/complete-item/<item_id>/<shift>/')
 @login_required
 @socketio.on('completed')
 def complete_item(item_id, shift):
-    #print("completing", item_id)
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'update todays_tasks set completed = "%s" where id == "%s"' % (1,item_id)
-    cur.execute(sql)
-    conn.commit()
+    task = Todays_Task.query.filter_by(id=item_id).first()
+    task.completed = 1
+
+    db.session.commit()
+
     data = {'id': item_id}
     socketio.emit('completed', {'id': item_id, 'shift': shift})
     return jsonify(data)
