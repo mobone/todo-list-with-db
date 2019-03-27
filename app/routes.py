@@ -64,6 +64,8 @@ def get_all_tasks():
         task.time = task.time.split('.')[0]
         if task.overdue is not None:
             task.overdue = task.overdue.split('.')[0]
+        if task.link is None:
+            task.link = ''
         task_dict = {
                     'id': task.id,
                     'time': task.time,
@@ -162,6 +164,8 @@ def copy_tasks_to_today():
             add_to_today = True
         elif todays_day.lower() in task.comments.lower() and 'not '+task.comments.lower() not in task.comments.lower():
             add_to_today = True
+        if task.link is None:
+            task.link = ''
         task = Todays_Task(date=date, time=task.time, shift=task.shift,
                            task=task.task, overdue=task.overdue,
                            comments=task.comments, assignee='',
