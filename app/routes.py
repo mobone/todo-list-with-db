@@ -73,7 +73,7 @@ def addTodo():
 @app.route('/get_all_tasks')
 @login_required
 def get_all_tasks():
-
+    #user = Task.query.filter_by(id=request.form['userid']).first()
     conn = get_db()
     cur = conn.cursor()
 

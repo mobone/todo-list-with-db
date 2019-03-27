@@ -33,3 +33,17 @@ class User(UserMixin, db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime)
+    time = db.Column(db.DateTime)
+    shift = db.Column(db.String(30))
+    task = db.Column(db.String(350))
+    completed = db.Column(db.Integer)
+    assignee = db.Column(db.String(100))
+    overdue = db.Column(db.DateTime)
+    comments = db.Column(db.String(350))
+    completed_date = db.Column(db.DateTime)
+    completed_time = db.Column(db.DateTime)
+    completed_by = db.Column(db.String(100))
