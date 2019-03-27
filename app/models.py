@@ -43,6 +43,8 @@ class Base_Task(db.Model):
     comments = db.Column(db.String(350))
     link = db.Column(db.String(650))
 
+    
+
 
 class Todays_Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)

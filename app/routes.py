@@ -228,6 +228,50 @@ def todays_tasks():
 
     return jsonify(all_tasks_dict)
 
+@app.route('/edit-task/<item_id>/<item_type>')
+@login_required
+def edit_task(item_id, item_type):
+    if item_type == 'base_task':
+        task = Base_Task
+    elif item_type == 'todays_task':
+        task = Todays_Task
+    elif item_type == 'archive':
+        task = Archived_Task
+
+    task = task.query.filter_by(id=item_id).first()
+    if task.comments == None:
+        task.comments = ''
+    task.time = task.time.split('.')[0]
+    if task.overdue is not None:
+        task.overdue = task.overdue.split('.')[0]
+    if task.link is None:
+        task.link = ''
+    if item_type == 'base_task':
+
+        task_dict = {
+                    'id': task.id,
+                    'time': task.time,
+                    'shift': task.shift,
+                    'task': task.task,
+                    'overdue': task.overdue,
+                    'comment': task.comments,
+                    'link': task.link
+                    }
+    elif item_type == 'todays_task':
+        task_dict = {
+                    'id': task.id,
+                    'date': task.date,
+                    'time': task.time,
+                    'shift': task.shift,
+                    'task': task.task,
+                    'completed': task.completed,
+                    'assignee': task.assignee,
+                    'overdue': task.overdue,
+                    'comment': task.comments,
+                    'link': task.link
+                    }
+    return jsonify(task_dict)
+
 @app.route('/assign-item', methods=['POST'])
 @login_required
 def assign_item():
