@@ -393,7 +393,7 @@ var today = new Date();
           </td>
           <td>
           <form action="/remove-user" method="post">
-          <input hidden name="username" value=${itemsList[i]['username']}>
+          <input hidden name="username_delete_me" value=${itemsList[i]['username']}>
           <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
           </form>
           </td>

@@ -84,10 +84,9 @@ def removeTodo(item_id):
     cur = conn.cursor()
 
     data = {'id': item_id }
-
-    sql = 'delete from base_tasks where id == "%s"' % item_id
-    cur.execute(sql)
-    conn.commit()
+    task = Base_Task.query.filter_by(id=item_id).first()
+    db.session.delete(task)
+    db.session.commit()
 
     return jsonify(data)
 
@@ -139,12 +138,9 @@ def get_all_users():
 @app.route('/remove-user', methods = ['POST'])
 @login_required
 def remove_user():
-    #u = User.query.filter_by(username=request.form['username'])
-    conn = get_db()
-    cur = conn.cursor()
-    sql = 'delete from user where username=="%s"' % (request.form['username'])
-    cur.execute(sql)
-    conn.commit()
+    u = User.query.filter_by(username=request.form['username_delete_me']).first()
+    db.session.delete(u)
+    db.session.commit()
     return render_template('add_users.html')
 
 @app.route('/copy-to-today', methods = ['POST'])
